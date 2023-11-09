@@ -7,13 +7,10 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.BLL.Services.Basket.Abstract
 {
-    public interface IOrderDetailExtraService 
+    public interface IOrderBagService : IBaseService<OrderBag> 
     {
 
-        Task<bool> AddAsync(OrderDetailExtra extra);
-
-        Task<bool> AddExtraToOrder(OrderDetailExtra extra,int orderDetailId);
-
+        Task<int> GetOrderBagID(OrderBag orderBag);
 
     }
 }

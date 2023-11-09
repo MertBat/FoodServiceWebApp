@@ -12,5 +12,6 @@ namespace YemekSiparis.Core.IRepositories
 
         Task<bool> AddAsync(OrderDetailBeverage orderDetail);
 
+
     }
 }

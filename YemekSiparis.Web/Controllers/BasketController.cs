@@ -30,8 +30,9 @@ namespace YemekSiparis.Web.Controllers
         private readonly IBeverageService _beverageService;
         private readonly IOrderDetailBeverageService _orderBeverageService;
         private readonly IOrderDetailExtraService _orderExtraService;
+        private readonly IOrderBagService _orderBagService;
 
-        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService)
+        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService,IOrderBagService orderBagService)
         {
             _baseRepository = baseRepository;
             _extraRepository = extraRepository;
@@ -47,6 +48,7 @@ namespace YemekSiparis.Web.Controllers
             _beverageService = beverageService;
             _orderBeverageService = orderBeverageService;
             _orderExtraService = orderExtraService;
+            _orderBagService = orderBagService;
         }
 
         public IActionResult Menu()
@@ -123,24 +125,19 @@ namespace YemekSiparis.Web.Controllers
             Food food = await _foodRepository.GetByAllInclude(x => x.Id == detailVM.Food.Id);
 
             OrderBag orderBag = await _orderBagRepository.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+
             OrderDetail orderDetail = new OrderDetail();
+
             if (orderBag == null)
             {
-                OrderBag bag = new OrderBag();
-                bag.CustomerId = 1;
-                bag.OrderStatus = detailVM.OrderStatus;
-                await _orderBagRepository.AddAsync(bag);
-                orderDetail.OrderBagID = bag.Id;
+                OrderBag bag = new OrderBag();         
+                //bag.CustomerId = 1;
+                //bag.OrderStatus = detailVM.OrderStatus;
+                //await _orderBagRepository.AddAsync(bag);
+                orderDetail.OrderBagID = await _orderBagService.GetOrderBagID(bag);
+
             }
 
-            //TODOOO : BURADAKİ ORDERBAGS ÇEK VE ÖDEME KISMINA GİT ORADA ÇEKECEKSİN BUNUN AYNISINI ÖDEME DETAYLARINI YAZDIRACAKSIN
-            //Expression<Func<OrderBag, object>>[] include = new Expression<Func<OrderBag, object>>[]
-            //{
-            //    x=> x.OrderDetails, x=> x.Customer
-
-            //};
-
-            //List<OrderBag> orderBags = await _orderBagRepository.AllIncludeOrderBag(include);
 
             orderDetail.FoodID = detailVM.Food.Id;
             orderDetail.OrderBagID = orderBag.Id;
@@ -151,14 +148,14 @@ namespace YemekSiparis.Web.Controllers
 
             OrderDetailExtra extra = new OrderDetailExtra();
 
-            foreach (Extra item in ExtraData.Extras)
-            {
-                extra.OrderDetailID = orderDetail.Id;
-                extra.ExtraID = item.Id;
-                await _orderExtraService.AddAsync(extra);
-            }
+            //foreach (Extra item in ExtraData.Extras)
+            //{
+            //    extra.OrderDetailID = orderDetail.Id;
+            //    extra.ExtraID = item.Id;
+            //    await _orderExtraService.AddAsync(extra);
+            //}
 
-
+            await _orderExtraService.AddExtraToOrder(extra, orderDetail.Id);
 
             //extra.Extra = await _extraRepository.GetByIdAsync(detailVM.ExtraId);
             //extra.OrderDetail = orderDetail;
@@ -166,13 +163,14 @@ namespace YemekSiparis.Web.Controllers
 
             OrderDetailBeverage beverage = new OrderDetailBeverage();
 
+            await _orderBeverageService.AddBeverageToOrder(beverage, orderDetail.Id);
 
-            foreach (Beverage item in BeverageData.Beverages)
-            {
-                beverage.OrderDetailID = orderDetail.Id;
-                beverage.BeverageID = item.Id;
-                await _orderBeverageService.AddAsync(beverage);
-            }
+            //foreach (Beverage item in BeverageData.Beverages)
+            //{
+            //    beverage.OrderDetailID = orderDetail.Id;
+            //    beverage.BeverageID = item.Id;
+            //    await _orderBeverageService.AddAsync(beverage);
+            //}
 
 
             //beverage.Beverage = await _beverageRepository.GetByIdAsync(detailVM.BeverageId);

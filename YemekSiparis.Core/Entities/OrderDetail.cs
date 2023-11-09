@@ -18,7 +18,7 @@ namespace YemekSiparis.Core.Entities
         public List<OrderDetailExtra> Extras { get; set; }  
         public List<OrderDetailBeverage> Beverages { get; set; }
         public Food? Food { get; set; }
-        public OrderBag OrderBag { get; set; }
+        public OrderBag? OrderBag { get; set; }
         public FoodSize FoodSize{ get; set; }
 
     }

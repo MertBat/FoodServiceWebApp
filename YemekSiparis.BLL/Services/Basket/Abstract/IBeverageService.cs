@@ -12,5 +12,7 @@ namespace YemekSiparis.BLL.Services.Basket.Abstract
 
         Task<decimal> AdditionAsync(List<Beverage> beverages);
 
+    
+
     }
 }
