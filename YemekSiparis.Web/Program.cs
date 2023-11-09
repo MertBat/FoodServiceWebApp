@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using YemekSiparis.BLL.Services.Basket.Abstract;
+using YemekSiparis.BLL.Services.Basket.Concrete;
 using YemekSiparis.Core.Entities;
+using YemekSiparis.Core.IRepositories;
 using YemekSiparis.DAL.Context;
+using YemekSiparis.DAL.Repositories;
 using YemekSiparis.DAL.SeedData;
 
 namespace YemekSiparis.Web
@@ -26,6 +31,22 @@ namespace YemekSiparis.Web
 
             //MAPPER
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            //DEPENDENCY INJECTION
+            builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            builder.Services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddTransient<IFoodRepository, FoodRepository>();
+            builder.Services.AddTransient<IExtraRepository, ExtraRepository>();
+            builder.Services.AddTransient<IBeverageRepository, BeverageRepository>();
+            builder.Services.AddTransient<IOrderBagRepository, OrderBagRepository>();
+
+            //SERVÝCE INJECTION
+            builder.Services.AddScoped<ICreateOrderService,CreateOrderManager>();
+            builder.Services.AddScoped<IOrderDetailService,OrderDetailManager>();
+            builder.Services.AddScoped<IExtraService,ExtraManager>();
+            builder.Services.AddScoped<IBeverageService,BeverageManager>();
+
+
             var app = builder.Build();
 
 

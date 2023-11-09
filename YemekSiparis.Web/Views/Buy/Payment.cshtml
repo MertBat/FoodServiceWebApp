@@ -1,0 +1,39 @@
+﻿@using YemekSiparis.BLL.Models.ViewModels;
+@using YemekSiparis.Core.Entities;
+
+@model ListFoodVM
+
+<div class="row">
+    <div class="col-lg-11 offset-1 ">
+        <table class=" table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Fiyatı</th>
+                    <th style="justify-content :center;" scope="col">Satın Al</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Food item in Model.Foods)
+                {
+                    <tr>
+
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                        <td style="justify-content:center;">
+                            <a asp-action="CreateOrder" asp-controller="Basket" asp-route-id="@item.Id" class="d-flex btn btn-success "><b>Satın Al</b></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9">
+                        <a class="btn btn-success" asp-action="Create" style="width:100%">Create New</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

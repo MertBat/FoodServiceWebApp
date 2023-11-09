@@ -14,7 +14,7 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.DAL.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity, new()
+    public class BaseRepository<T> : IBaseRepository<T> where T : /*class,*/ BaseEntity/*, new()*/
     {
         private readonly AppDbContext _context;
 

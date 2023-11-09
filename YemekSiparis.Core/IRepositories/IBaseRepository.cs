@@ -9,7 +9,7 @@ using YemekSiparis.Core.Entities.Abstract;
 
 namespace YemekSiparis.Core.IRepositories
 {
-    public interface IBaseRepository<T> where T : class, IBaseEntity,new()
+    public interface IBaseRepository<T> where T : /*class, */ BaseEntity /*, new()*/
     {
         Task<bool> AddAsync(T entity);
         Task<bool> UpdateAsync(T entity);
