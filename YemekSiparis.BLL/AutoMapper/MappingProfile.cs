@@ -22,6 +22,9 @@ namespace YemekSiparis.BLL.AutoMapper
             CreateMap<Beverage, BeverageListDTO>().ReverseMap();
             CreateMap<Beverage, BeverageCreateDTO>().ReverseMap();
             CreateMap<Beverage, BeverageUpdateDTO>().ReverseMap();
+            CreateMap<Food, StockProductsDTO>().ReverseMap();
+            CreateMap<Beverage, StockProductsDTO>().ReverseMap();
+            CreateMap<Extra, StockProductsDTO>().ReverseMap();
         }
     }
 }

@@ -7,6 +7,7 @@ using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Beverage;
 using YemekSiparis.BLL.Services.Admin.Extra;
 using YemekSiparis.BLL.Services.Admin.Product;
+using YemekSiparis.BLL.Services.Admin.Stock;
 using YemekSiparis.Core.Entities;
 using YemekSiparis.Core.IRepositories;
 using YemekSiparis.DAL.Context;
@@ -39,6 +40,7 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IExtraService, ExtraService>();
             builder.Services.AddScoped<IBeverageService, BeverageService>();
+            builder.Services.AddScoped<IStockService, StockService>();
 
             //Automapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
