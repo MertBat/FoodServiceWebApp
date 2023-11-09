@@ -8,7 +8,6 @@ namespace YemekSiparis.Web.Controllers
         public IActionResult Payment(CreateOrderDetailVM detailVM)
         {
 
-
             return View(detailVM);
         }
     }

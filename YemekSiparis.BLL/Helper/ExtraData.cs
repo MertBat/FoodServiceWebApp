@@ -16,7 +16,6 @@ namespace YemekSiparis.BLL.Helper
 
         }
 
-
         public static List<Extra> Extras { get; set; }
     }
 }

@@ -32,7 +32,8 @@ namespace YemekSiparis.DAL.Context
         public DbSet<OrderBag> OrderBags { get; set; }
         public DbSet<OrderDetail> OrderDetails{ get; set; }
 
-
+        public DbSet<OrderDetailBeverage> OrderDetailBeverages { get; set; }
+        public DbSet<OrderDetailExtra> OrderDetailExtras{ get; set; }
 
 
 

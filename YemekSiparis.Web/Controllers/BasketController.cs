@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using YemekSiparis.BLL.Helper;
@@ -21,13 +22,16 @@ namespace YemekSiparis.Web.Controllers
         private readonly IFoodRepository _foodRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IOrderBagRepository _orderBagRepository;
         private readonly ICreateOrderService _createOrderService;
         private readonly IOrderDetailService _orderDetailService;
         private readonly IExtraService _extraService;
         private readonly IBeverageService _beverageService;
+        private readonly IOrderDetailBeverageService _orderBeverageService;
+        private readonly IOrderDetailExtraService _orderExtraService;
 
-        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService)
+        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService)
         {
             _baseRepository = baseRepository;
             _extraRepository = extraRepository;
@@ -35,11 +39,14 @@ namespace YemekSiparis.Web.Controllers
             _foodRepository = foodRepository;
             _orderDetailRepository = orderDetailRepository;
             _userManager = userManager;
+            _roleManager = roleManager;
             _orderBagRepository = orderBagRepository;
             _createOrderService = createOrderService;
             _orderDetailService = orderDetailService;
             _extraService = extraService;
             _beverageService = beverageService;
+            _orderBeverageService = orderBeverageService;
+            _orderExtraService = orderExtraService;
         }
 
         public IActionResult Menu()
@@ -138,21 +145,50 @@ namespace YemekSiparis.Web.Controllers
             orderDetail.FoodID = detailVM.Food.Id;
             orderDetail.OrderBagID = orderBag.Id;
 
-            OrderDetailExtra extra = new OrderDetailExtra();
-            extra.Extra = await _extraRepository.GetByIdAsync(detailVM.ExtraId);
-            extra.OrderDetail = orderDetail;
-            orderDetail.Extras.Add(extra);
-
-            OrderDetailBeverage beverage = new OrderDetailBeverage();
-            beverage.Beverage = await _beverageRepository.GetByIdAsync(detailVM.BeverageId);
-            beverage.OrderDetail = orderDetail;
-            orderDetail.Beverages.Add(beverage);
-
-
-            orderDetail.UnitPrice = (food.Price * (1 - food.Discount)) * detailVM.Quantity + beverage.Beverage.Price + extra.Extra.Price;
 
             await _orderDetailService.AddAsync(orderDetail);
 
+
+            OrderDetailExtra extra = new OrderDetailExtra();
+
+            foreach (Extra item in ExtraData.Extras)
+            {
+                extra.OrderDetailID = orderDetail.Id;
+                extra.ExtraID = item.Id;
+                await _orderExtraService.AddAsync(extra);
+            }
+
+
+
+            //extra.Extra = await _extraRepository.GetByIdAsync(detailVM.ExtraId);
+            //extra.OrderDetail = orderDetail;
+            //orderDetail.Extras.Add(extra);
+
+            OrderDetailBeverage beverage = new OrderDetailBeverage();
+
+
+            foreach (Beverage item in BeverageData.Beverages)
+            {
+                beverage.OrderDetailID = orderDetail.Id;
+                beverage.BeverageID = item.Id;
+                await _orderBeverageService.AddAsync(beverage);
+            }
+
+
+            //beverage.Beverage = await _beverageRepository.GetByIdAsync(detailVM.BeverageId);
+            //beverage.OrderDetail = orderDetail;
+            //orderDetail.Beverages.Add(beverage);
+
+
+            //orderDetail.UnitPrice = (food.Price * (1 - food.Discount)) * detailVM.Quantity + beverage.Beverage.Price + extra.Extra.Price;
+
+
+            Expression<Func<OrderDetail, object>>[] deneme = new Expression<Func<OrderDetail, object>>[]
+            {
+                x=> x.Beverages,x=> x.Extras
+            };
+
+            List<OrderDetail> order = await _orderDetailRepository.AllIncludeOrderDetail(deneme);
             return RedirectToAction("Payment", "Buy", detailVM);
         }
 
@@ -163,20 +199,36 @@ namespace YemekSiparis.Web.Controllers
         {
 
             Food food = await _foodRepository.GetByAllInclude(x => x.Id == detailVM.FoodId);
-            if (detailVM.ExtraId != 0)
+            if ((detailVM.ExtraId != 0) && detailVM.IsSelected == true)
                 ExtraData.Extras.Add(await _extraRepository.GetByIdAsync(detailVM.ExtraId));
-            if ((detailVM.BeverageId != 0))
-                BeverageData.Beverages.Add(await _beverageRepository.GetByIdAsync(detailVM.BeverageId));
+            else if ((detailVM.ExtraId != 0) && detailVM.IsSelected == false)
+            {
+                Extra extra = null;
 
+                foreach (var element in ExtraData.Extras)
+                {
+                    if (element.Id == detailVM.ExtraId)
+                    {
+                        extra = element;
+                        break;
+                    }
+                }
+                ExtraData.Extras.Remove(extra);
+            }
+
+            if (detailVM.BeverageId != 0 && detailVM.IsSelected == true)
+                BeverageData.Beverages.Add(await _beverageRepository.GetByIdAsync(detailVM.BeverageId));
+            else if (detailVM.BeverageId != 0 && detailVM.IsSelected == false)
+                BeverageData.Beverages.Remove(await _beverageRepository.GetByIdAsync(detailVM.BeverageId));
 
 
             decimal size = FoodSizeResult.SizePrice(detailVM.FoodSize);
 
             if (ExtraData.Extras.Count <= 0 && BeverageData.Beverages.Count <= 0)
                 detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity, 2) * size;
-            else if (ExtraData.Extras.Count > 0)
+            else if (ExtraData.Extras.Count > 0 && BeverageData.Beverages.Count <= 0)
                 detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity * size + await _extraService.AdditionAsync(ExtraData.Extras), 2);
-            else if (BeverageData.Beverages.Count > 0)
+            else if (BeverageData.Beverages.Count > 0 && ExtraData.Extras.Count <= 0)
                 detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity * size + await _beverageService.AdditionAsync(BeverageData.Beverages), 2);
             else
                 detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity * size + await _extraService.AdditionAsync(ExtraData.Extras) + await _beverageService.AdditionAsync(BeverageData.Beverages), 2);

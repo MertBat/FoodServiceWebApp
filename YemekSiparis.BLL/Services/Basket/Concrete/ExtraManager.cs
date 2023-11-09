@@ -9,7 +9,7 @@ using YemekSiparis.Core.IRepositories;
 
 namespace YemekSiparis.BLL.Services.Basket.Concrete
 {
-    public class ExtraManager : BaseManager<Extra>, IExtraService
+    public class ExtraManager : BaseManager<Extra>, IExtraService 
     {
         private readonly IBaseRepository<Extra> _baseRepository;
 

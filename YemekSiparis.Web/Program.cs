@@ -39,12 +39,16 @@ namespace YemekSiparis.Web
             builder.Services.AddTransient<IExtraRepository, ExtraRepository>();
             builder.Services.AddTransient<IBeverageRepository, BeverageRepository>();
             builder.Services.AddTransient<IOrderBagRepository, OrderBagRepository>();
+            builder.Services.AddTransient<IOrderDetailBeverageRepository, OrderDetailBeverageRepository>();
+            builder.Services.AddTransient<IOrderDetailExtraRepository, OrderDetailExtraRepository>();
 
             //SERVÝCE INJECTION
             builder.Services.AddScoped<ICreateOrderService,CreateOrderManager>();
             builder.Services.AddScoped<IOrderDetailService,OrderDetailManager>();
             builder.Services.AddScoped<IExtraService,ExtraManager>();
             builder.Services.AddScoped<IBeverageService,BeverageManager>();
+            builder.Services.AddScoped<IOrderDetailBeverageService,OrderDetailBeverageManager>();
+            builder.Services.AddScoped<IOrderDetailExtraService,OrderDetailExtraManager>();
 
 
             var app = builder.Build();
