@@ -12,5 +12,9 @@ namespace YemekSiparis.BLL.Services.Basket.Abstract
 
         Task<int> GetOrderBagID(OrderBag orderBag);
 
+        Task<decimal> TotalPayment(List<OrderDetail> orderDetails);
+
+        Task<bool> DefaultUpdate(OrderBag orderBag);
+
     }
 }

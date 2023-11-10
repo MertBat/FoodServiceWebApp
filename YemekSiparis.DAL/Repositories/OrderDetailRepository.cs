@@ -20,18 +20,25 @@ namespace YemekSiparis.DAL.Repositories
             _context = context;
         }
        
-        public async Task<List<OrderDetail>> AllIncludeOrderDetail(params Expression<Func<OrderDetail, object>>[] include)
+        public async Task<List<OrderDetail>> AllIncludeOrderDetail(Expression<Func<OrderDetail,bool>> express = null,params Expression<Func<OrderDetail, object>>[] include)
         {
             
             IQueryable<OrderDetail> query = _context.OrderDetails.AsQueryable();
-
-            if(include.Any())
+            if(express != null)
             {
-                foreach(var item in include)
+
+                query = query.Where(express);
+
+            }
+
+            if (include.Any())
+            {
+                foreach (var item in include)
                 {
-                    query = query.Include(item);    
+                    query = query.Include(item);
                 }
             }
+
             return await query.ToListAsync();
 
         }

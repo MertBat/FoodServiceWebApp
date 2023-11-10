@@ -7,12 +7,9 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.BLL.Services.Basket.Abstract
 {
-    public interface IBeverageService : IBaseService<Beverage>
+    public interface IFoodService : IBaseService<Food>
     {
-
-        Task<decimal> AdditionAsync(List<Beverage> beverages = null, List<OrderDetailBeverage> detailBeverages = null);
-
-    
+        Task<bool> DefaultUpdate(Food food);
 
     }
 }

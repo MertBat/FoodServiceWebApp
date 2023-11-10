@@ -9,7 +9,7 @@ namespace YemekSiparis.BLL.Services.Basket.Abstract
 {
     public interface IExtraService : IBaseService<Extra>
     {
-        Task<decimal> AdditionAsync(List<Extra> extras);
+        Task<decimal> AdditionAsync(List<Extra> extras = null,List<OrderDetailExtra> detailExtras = null);
 
 
         

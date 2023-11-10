@@ -12,20 +12,35 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
     public class BeverageManager : BaseManager<Beverage>, IBeverageService
     {
         private readonly IBaseRepository<Beverage> _baseRepository;
-
         public BeverageManager(IBaseRepository<Beverage> baseRepository) : base(baseRepository)
         {
             _baseRepository = baseRepository;
+           
         }
 
-        public async Task<decimal> AdditionAsync(List<Beverage> beverages)
+        public async Task<decimal> AdditionAsync(List<Beverage> beverages = null, List<OrderDetailBeverage> detailBeverages = null)
         {
             decimal total = 1;
 
-            foreach (Beverage item in beverages)
+            if (detailBeverages == null)
             {
-                total += item.Price;
+                foreach (Beverage item in beverages)
+                {
+                    total += item.Price;
+                }
+
             }
+            else if (beverages == null)
+            {
+                foreach (OrderDetailBeverage item in detailBeverages)
+                {
+                    Beverage beverage = await _baseRepository.GetByIdAsync(item.BeverageID);
+                    total += beverage.Price;
+
+                }
+
+            }
+
 
 
             return total;

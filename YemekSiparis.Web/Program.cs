@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using YemekSiparis.BLL.Mapping;
 using YemekSiparis.BLL.Services.Basket.Abstract;
 using YemekSiparis.BLL.Services.Basket.Concrete;
 using YemekSiparis.Core.Entities;
@@ -30,7 +31,7 @@ namespace YemekSiparis.Web
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             //MAPPER
-            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             //DEPENDENCY INJECTION
             builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -51,6 +52,7 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IOrderDetailBeverageService,OrderDetailBeverageManager>();
             builder.Services.AddScoped<IOrderDetailExtraService,OrderDetailExtraManager>();
             builder.Services.AddScoped<IOrderBagService,OrderBagManager>();
+            builder.Services.AddScoped<IFoodService,FoodManager>();
 
 
             var app = builder.Build();

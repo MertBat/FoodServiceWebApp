@@ -1,39 +1,63 @@
 ﻿@using YemekSiparis.BLL.Models.ViewModels;
 @using YemekSiparis.Core.Entities;
-
-@model ListFoodVM
+@model OrderDetailVM
 
 <div class="row">
     <div class="col-lg-11 offset-1 ">
         <table class=" table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Fiyatı</th>
+                    <th>Fatura No</th>
+                    <th>Menü Adı</th>
+                    <th>Soslar</th>
+                    <th>Alınan İçecek</th>
+                    <th>Boyutu</th>
+                    <th>Menü Adeti</th>
+                    <th>Menü Fiyatı</th>
                     <th style="justify-content :center;" scope="col">Satın Al</th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (Food item in Model.Foods)
+                @foreach (OrderDetail item in Model.OrderDetails)
                 {
                     <tr>
-
-                        <td>@item.Name</td>
-                        <td>@item.Price</td>
+                        <td>@item.Id</td>
+                        <td>@item.Food.Name</td>
+                        <td>
+                        @foreach (var extra in item.Extras)
+                        {
+                           @extra.Extra.Name                              
+                        }                          
+                        </td>
+                        <td>
+                            @foreach (var beverage in item.Beverages)
+                            {
+                                @beverage.Beverage.Name   
+                            }
+                        </td>
+                        <td>@item.FoodSize.ToString()</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice</td>
                         <td style="justify-content:center;">
-                            <a asp-action="CreateOrder" asp-controller="Basket" asp-route-id="@item.Id" class="d-flex btn btn-success "><b>Satın Al</b></a>
+                            <a asp-action="CreateOrder" asp-controller="Basket" asp-route-id="@item.Id" class="d-flex btn btn-success "><b>Siparişi Sil</b></a>
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td>TOPLAM ÜCRET : @Model.OrderDetails[0].OrderBag.TotalPrice</td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="9">
-                        <a class="btn btn-success" asp-action="Create" style="width:100%">Create New</a>
+                        <a class="btn btn-success" asp-action="Create" style="width:100%">Siparişi Tamamla</a>
+                        <a class="btn btn-success" asp-action="Create" style="width:100%">Sepeti Sil</a>
                     </td>
                 </tr>
             </tfoot>
         </table>
     </div>
 </div>
+
+
