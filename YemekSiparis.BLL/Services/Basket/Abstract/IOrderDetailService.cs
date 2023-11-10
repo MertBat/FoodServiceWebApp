@@ -13,7 +13,7 @@ namespace YemekSiparis.BLL.Services.Basket.Abstract
     public interface IOrderDetailService : IOrderDetailRepository
     {
 
-        Task<bool> CreateDetailVM(CreateOrderDetailVM vm);
+        //Task<bool> CreateDetailVM(CreateOrderDetailVM vm);
 
         Task<bool> DefaultUpdateAsync(OrderDetail orderDetail);
 

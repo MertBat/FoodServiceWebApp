@@ -149,19 +149,18 @@ namespace YemekSiparis.Web.Controllers
             Expression<Func<OrderDetail, object>>[] includes = new Expression<Func<OrderDetail, object>>[]
             {
                 x=>x.Beverages, x=>x.Extras,x=>x.Food
-
             };
             if (orderBag != null)
             {
-                orderBag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active, includes));
+                orderBag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == bag.Id, includes));
                 await _orderBagService.DefaultUpdate(orderBag);
             }
             else
             {
-                bag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active, includes));
+                bag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == bag.Id, includes));
                 await _orderBagService.DefaultUpdate(bag);
             }
-            orderDetail.UnitPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Id == orderDetail.Id, includes));
+            orderDetail.UnitPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Id == orderDetail.Id && x.Status == Status.Active, includes));
             await _orderDetailService.DefaultUpdateAsync(orderDetail);
 
             DataClear.Clear();

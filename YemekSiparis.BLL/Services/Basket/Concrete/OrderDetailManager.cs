@@ -62,19 +62,17 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
             return await query.Include(x => x.Extras).ThenInclude(od => od.Extra).Include(x => x.Beverages).ThenInclude(bv => bv.Beverage).Include(x => x.Food).Include(x => x.OrderBag).ToListAsync();
 
-
-
         }
 
-        public async Task<bool> CreateDetailVM(CreateOrderDetailVM vm)
-        {
+        //public async Task<bool> CreateDetailVM(CreateOrderDetailVM vm)
+        //{
 
-            //OrderDetail orderDetail = new OrderDetail();
-            //orderDetail.FoodID = detailVM.FoodId;
-            //orderDetail.OrderBagID = bag.Id;
-            //await _orderDetailService.AddAsync(orderDetail);
-            throw new NotImplementedException();
-        }
+        //    //OrderDetail orderDetail = new OrderDetail();
+        //    //orderDetail.FoodID = detailVM.FoodId;
+        //    //orderDetail.OrderBagID = bag.Id;
+        //    //await _orderDetailService.AddAsync(orderDetail);
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<bool> DefaultUpdateAsync(OrderDetail orderDetail)
         {
