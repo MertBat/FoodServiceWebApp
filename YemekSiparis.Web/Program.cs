@@ -6,7 +6,10 @@ using YemekSiparis.BLL.AutoMapper;
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Beverage;
 using YemekSiparis.BLL.Services.Admin.Category;
+using YemekSiparis.BLL.Services.Admin.CustomerDetail;
+using YemekSiparis.BLL.Services.Admin.Employee;
 using YemekSiparis.BLL.Services.Admin.Extra;
+using YemekSiparis.BLL.Services.Admin.Giro;
 using YemekSiparis.BLL.Services.Admin.Product;
 using YemekSiparis.BLL.Services.Admin.Stock;
 using YemekSiparis.Core.Entities;
@@ -24,7 +27,10 @@ namespace YemekSiparis.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
 
 
             //CONTEXT
@@ -36,6 +42,8 @@ namespace YemekSiparis.Web
             //Repo
             builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             builder.Services.AddTransient(typeof(IFoodDietRepository), typeof(FoodDietRepository));
+            builder.Services.AddTransient(typeof(ICustomerDetailRepository), typeof(CustomerDetailRepository));
+            builder.Services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
 
             //Services
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -43,12 +51,12 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IBeverageService, BeverageService>();
             builder.Services.AddScoped<IStockService, StockService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ICustomerDetailService, CustomerDetailService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IGiroService, GiroService>();
 
             //Automapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-
-
 
             var app = builder.Build();
             var serviceScope = app.Services.CreateScope();

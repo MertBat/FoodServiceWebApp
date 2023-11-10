@@ -8,10 +8,10 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.Core.IRepositories
 {
-    public interface IOrderDetailRepository : IBaseRepository<OrderDetail>
+    public interface ICustomerDetailRepository : IBaseRepository<Customer>
     {
 
-        Task<List<OrderDetail>> AllIncludeOrderDetail(params Expression<Func<OrderDetail,object>>[] include  );
+        Task<List<Customer>> AllIncludeFood();
 
     }
 }
