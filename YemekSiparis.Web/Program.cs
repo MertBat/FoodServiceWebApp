@@ -5,6 +5,7 @@ using System.Reflection;
 using YemekSiparis.BLL.AutoMapper;
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Beverage;
+using YemekSiparis.BLL.Services.Admin.Category;
 using YemekSiparis.BLL.Services.Admin.Extra;
 using YemekSiparis.BLL.Services.Admin.Product;
 using YemekSiparis.BLL.Services.Admin.Stock;
@@ -41,6 +42,7 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IExtraService, ExtraService>();
             builder.Services.AddScoped<IBeverageService, BeverageService>();
             builder.Services.AddScoped<IStockService, StockService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             //Automapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));

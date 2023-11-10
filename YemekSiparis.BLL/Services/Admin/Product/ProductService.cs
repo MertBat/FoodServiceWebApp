@@ -16,12 +16,12 @@ namespace YemekSiparis.BLL.Services.Admin.Product
     public class ProductService : IProductService
     {
         private readonly IBaseRepository<Food> foodRepository;
-        private readonly IBaseRepository<Category> categoryRepository;
+        private readonly IBaseRepository<Core.Entities.Category> categoryRepository;
         private readonly IBaseRepository<Diet> dietRepository;
         private readonly IFoodDietRepository foodDietRepository;
         private readonly IMapper mapper;
 
-        public ProductService(IBaseRepository<Food> foodRepository, IBaseRepository<Category> categoryRepository, IBaseRepository<Diet> dietRepository, IFoodDietRepository foodDietRepository, IMapper mapper)
+        public ProductService(IBaseRepository<Food> foodRepository, IBaseRepository<Core.Entities.Category> categoryRepository, IBaseRepository<Diet> dietRepository, IFoodDietRepository foodDietRepository, IMapper mapper)
         {
             this.foodRepository = foodRepository;
             this.categoryRepository = categoryRepository;
@@ -36,14 +36,14 @@ namespace YemekSiparis.BLL.Services.Admin.Product
             foreach (Food food in foods)
             {
                 FoodListDTO foodListDTO = mapper.Map<FoodListDTO>(food);
-                Category category = await categoryRepository.GetByIdAsync(food.CategoryID);
+                Core.Entities.Category category = await categoryRepository.GetByIdAsync(food.CategoryID);
                 foodListDTO.CategoryName = category.Name;
                 foodLists.Add(foodListDTO);
             }
             return foodLists;
         }
 
-        public async Task<List<Category>> GetCategories()
+        public async Task<List<Core.Entities.Category>> GetCategories()
         {
             return await categoryRepository.GetAllAsync();
         }

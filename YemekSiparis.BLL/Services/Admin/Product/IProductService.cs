@@ -11,7 +11,7 @@ namespace YemekSiparis.BLL.Services.Admin.Product
     public interface IProductService
     {
         Task<List<FoodListDTO>> GetFoodList();
-        Task<List<Category>> GetCategories();
+        Task<List<Core.Entities.Category>> GetCategories();
         Task<List<DietListDTO>> GetDiets();
         Task<bool> CreateFood(ProductCreateDTO productCreateDTO);
         Task<ProductUpdateDTO> GetUpdateFood(int id);
