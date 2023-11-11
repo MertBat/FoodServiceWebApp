@@ -1,1 +1,181 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<style>
+    body {
+        overflow-x: hidden;
+        background-color: #f8f9fa;
+        font-family: 'Montserrat', sans-serif;
+        color: #333;
+        transition: background-color 0.5s, color 0.5s;
+    }
+
+    .jumbotron {
+        background: url('https://via.placeholder.com/1200x600') center/cover no-repeat;
+        color: white;
+        text-align: center;
+        padding: 150px 20px;
+        margin-bottom: 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .jumbotron h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: slideInDown 1s ease-in-out;
+        }
+
+        .jumbotron p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            animation: slideInUp 1s ease-in-out;
+        }
+
+        .jumbotron a.btn {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+    .feature-card {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+    .category-section {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+        text-align: center;
+    }
+
+    .category-card {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+    .delivery-section {
+        background-color: #d9534f;
+        color: white;
+        padding: 50px 0;
+        text-align: center;
+    }
+
+    .delivery-card {
+        background-color: #fff;
+        color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .delivery-card i {
+            font-size: 3rem;
+            color: #d9534f;
+            margin-bottom: 20px;
+        }
+</style>
+
+<div class="jumbotron">
+    <h1 class="display-4">Lezzet Dolu Deneyim</h1>
+    <p class="lead">Kapınıza gelen birbirinden lezzetli yemekleri keşfedin.</p>
+    <a class="btn btn-danger btn-lg" asp-area="" asp-controller="Basket" asp-action="Menu">Şimdi Sipariş Ver</a>
+</div>
+
+<div class="container-fluid category-section">
+    <h2>Özel Kategorilerden Lezzetler</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://via.placeholder.com/400" alt="Kategori 1" class="img-fluid" />
+                <h3>Kahvaltı</h3>
+                <p>Yumuşak poşe yumurtadan gevrek simide kadar lezzetli kahvaltı seçenekleri.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://via.placeholder.com/400" alt="Kategori 2" class="img-fluid" />
+                <h3>Fast Food</h3>
+                <p>Hızlı ve lezzetli atıştırmalıkların keyfini çıkarın.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://via.placeholder.com/400" alt="Kategori 3" class="img-fluid" />
+                <h3>Tatlılar</h3>
+                <p>Tatlı krizleriniz için enfes ve çeşitli tatlılar.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/600x300" alt="Özellik 2" class="img-fluid" />
+                <h3>İndirimler ve Kampanyalar</h3>
+                <p>Sık sık güncellenen indirim ve kampanyalarımızı takip edin.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/600x300" alt="Özellik 3" class="img-fluid" />
+                <h3>Hızlı ve Güvenilir Teslimat</h3>
+                <p>Express teslimat ile siparişiniz en kısa sürede kapınıza ulaşır.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ek Bölümleri Ekleyin -->
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/600x300" alt="Özellik 4" class="img-fluid" />
+                <h3>Yeni Lezzetler Keşfedin</h3>
+                <p>Menümüzdeki son eklemeler arasında keşfetmeye değer yeni lezzetler sizi bekliyor.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/600x300" alt="Özellik 5" class="img-fluid" />
+                <h3>Doğal ve Taze Malzemeler</h3>
+                <p>Yemeklerimizde sadece en kaliteli ve taze malzemeleri kullanıyoruz.</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@ using YemekSiparis.BLL.Services.Admin.Bevarage;
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class BeverageController : Controller
     {
         private readonly IBeverageAdminService beverageService;
@@ -33,7 +33,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
                 bool result = await beverageService.AddExtra(beverageCreate);
                 if (result == false)
                     return View(beverageCreate);
-                return RedirectToAction("Index");
+                return RedirectToAction("Beverage","Admin");
             }
                 return View(beverageCreate);
         }
@@ -51,7 +51,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
                 bool result = await beverageService.UpdateExtra(beverageUpdateDTO);
                 if (result == false)
                     return View(beverageUpdateDTO);
-                return RedirectToAction("Index");
+                return RedirectToAction("Beverage", "Admin");
             }
             return View(beverageUpdateDTO);
         }
@@ -59,7 +59,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await beverageService.DeleteExtra(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Beverage", "Admin");
         }
     }
 }

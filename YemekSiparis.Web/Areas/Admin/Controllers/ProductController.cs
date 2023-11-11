@@ -7,7 +7,7 @@ using YemekSiparis.Core.Entities;
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService productService;
@@ -36,7 +36,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await productService.CreateFood(productCreateDTO);
-                return RedirectToAction("Index");
+                return RedirectToAction("Product", "Admin");
             }
             ViewBag.Categories = await productService.GetCategories();
             return View(productCreateDTO);
@@ -54,7 +54,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await productService.PostUpdateFood(productUpdateDTO);
-                return RedirectToAction("Index");
+                return RedirectToAction("Product", "Admin");
             }
             ViewBag.Categories = await productService.GetCategories();
             return View(productUpdateDTO);
@@ -64,7 +64,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await productService.DeleteFood(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Product", "Admin");
         }
     }
 }

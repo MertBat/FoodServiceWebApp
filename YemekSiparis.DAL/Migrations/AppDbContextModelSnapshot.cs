@@ -227,13 +227,13 @@ namespace YemekSiparis.DAL.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de5af8d0-743d-4340-9315-a3a45dd5b8e1",
+                            ConcurrencyStamp = "d8c33634-1e44-4ea0-a37e-7427e2936de6",
                             ConfirmCode = 0,
                             Email = "eren.colk01@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a75a0234-ca08-4db6-9d33-df6732b8948c",
+                            SecurityStamp = "69a1ab59-53a3-440d-be35-f2abf6367ec9",
                             TwoFactorEnabled = false,
                             UserName = "erencolak"
                         });
@@ -280,7 +280,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1171),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5436),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -292,7 +292,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1190),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5456),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -304,7 +304,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1193),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5460),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -316,7 +316,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1196),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5464),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -359,7 +359,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1353),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5638),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Hamburger",
@@ -368,7 +368,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1362),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5652),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Pizza",
@@ -377,7 +377,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1365),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5655),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Makarna",
@@ -386,7 +386,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1368),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5658),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Döner",
@@ -422,7 +422,7 @@ namespace YemekSiparis.DAL.Migrations
                     b.Property<DateTime>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Gender")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -450,7 +450,7 @@ namespace YemekSiparis.DAL.Migrations
                             Age = 30,
                             AppUserId = "1",
                             Birthdate = new DateTime(1992, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1509),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(5879),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Gender = 1,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -495,7 +495,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1710),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6035),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Sağlıkla Tüketebilirsiniz",
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -505,7 +505,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1720),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6047),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Hayvanları koruyalım ve sevelim",
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -562,7 +562,7 @@ namespace YemekSiparis.DAL.Migrations
                         {
                             Id = 1,
                             Address = "Şakirpaşa/ADANA",
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1865),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6201),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Cabbar HÜSEYİN",
@@ -575,7 +575,7 @@ namespace YemekSiparis.DAL.Migrations
                         {
                             Id = 2,
                             Address = "Hürriyet/ADANA",
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1874),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6214),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Ayşe FATMA",
@@ -627,7 +627,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2006),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6349),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -639,7 +639,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2015),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6359),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -651,7 +651,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2018),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(6364),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSelected = false,
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -726,7 +726,7 @@ namespace YemekSiparis.DAL.Migrations
                             Id = 1,
                             CategoryID = 1,
                             ClickCount = 0,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4187),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(8223),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "110 gr. Helal Dana Eti, Cheader Peyniri, Karamelize Soğan",
                             Discount = 0m,
@@ -742,7 +742,7 @@ namespace YemekSiparis.DAL.Migrations
                             Id = 2,
                             CategoryID = 2,
                             ClickCount = 0,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4199),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(8237),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Mozeralla,Domates",
                             Discount = 0m,
@@ -758,7 +758,7 @@ namespace YemekSiparis.DAL.Migrations
                             Id = 3,
                             CategoryID = 3,
                             ClickCount = 0,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4202),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(8241),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Penne Sosu, Krema",
                             Discount = 0m,
@@ -840,11 +840,11 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4340),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(8409),
                             CustomerId = 1,
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4341),
+                            OrderDate = new DateTime(2023, 11, 11, 22, 49, 54, 685, DateTimeKind.Local).AddTicks(8410),
                             OrderStatus = 3,
                             Status = 1,
                             TotalPrice = 310m
@@ -898,7 +898,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(9068),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 686, DateTimeKind.Local).AddTicks(1372),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FoodID = 1,
                             FoodSize = 1,
@@ -911,7 +911,7 @@ namespace YemekSiparis.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(9086),
+                            CreatedDate = new DateTime(2023, 11, 11, 22, 49, 54, 686, DateTimeKind.Local).AddTicks(1387),
                             DeletedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FoodID = 2,
                             FoodSize = 1,

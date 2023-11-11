@@ -35,8 +35,7 @@ namespace YemekSiparis.DAL.SeedData
 				{
 					UserName = "erencolk",
 					Email = "eren.colk@gmail.com",
-
-
+					EmailConfirmed = true,
 				};
 
 				userManager.CreateAsync(user, "Eren12345.").Wait();

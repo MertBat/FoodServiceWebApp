@@ -102,7 +102,7 @@
     </div>
 </div>
 
-
+href="/Admin/Extra/Create"
 
 <script>
     $(document).ready(function () {
@@ -134,19 +134,19 @@
         $('.update-btn-food').click(function () {
             var itemId = $(this).data('idfood');
             var stockValue = $('#stockFoodInput-' + itemId).val();
-            var updateUrl = '@Url.Action("UpdateFood", "Stock")' + '?Id=' + itemId + '&Stock=' + stockValue;
+            var updateUrl = '/Admin/Stock/UpdateFood' + '?Id=' + itemId + '&Stock=' + stockValue;
             window.location.href = updateUrl;
         });
         $('.update-btn-extra').click(function () {
             var itemId = $(this).data('idextra');
             var stockValue = $('#stockExtraInput-' + itemId).val();
-            var updateUrl = '@Url.Action("UpdateExtra", "Stock")' + '?Id=' + itemId + '&Stock=' + stockValue;
+            var updateUrl = '/Admin/Stock/UpdateExtra' + '?Id=' + itemId + '&Stock=' + stockValue;
             window.location.href = updateUrl;
                 });
         $('.update-btn-beverage').click(function () {
             var itemId = $(this).data('idbeverage');
             var stockValue = $('#stockBeverageInput-' + itemId).val();
-            var updateUrl = '@Url.Action("UpdateBeverage", "Stock")' + '?Id=' + itemId + '&Stock=' + stockValue;
+            var updateUrl = '/Admin/Stock/UpdateBeverage' + '?Id=' + itemId + '&Stock=' + stockValue;
             window.location.href = updateUrl;
         });
     });

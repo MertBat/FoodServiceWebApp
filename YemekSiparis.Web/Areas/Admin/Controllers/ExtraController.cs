@@ -32,7 +32,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
             bool result = await extraService.AddExtra(extraCreateDTO);
             if(result == false)
                 return View(extraCreateDTO);
-            return RedirectToAction("Index");
+            return RedirectToAction("Extra", "Admin");
         }
 
         public async Task<IActionResult> Update(int id)
@@ -46,13 +46,13 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
             bool result = await extraService.UpdateExtra(extraUpdateDTO);
             if (result == false)
                 return View(extraUpdateDTO);
-            return RedirectToAction("Index");
+            return RedirectToAction("Extra", "Admin");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             bool result = await extraService.DeleteExtra(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Extra", "Admin");
         }
     }
 }

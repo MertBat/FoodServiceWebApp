@@ -53,12 +53,18 @@ namespace YemekSiparis.Web
 
 			builder.Services.Configure<IdentityOptions>(options =>
 			{
-				options.User.RequireUniqueEmail = true; // Email adýnýn benzersiz olmasý için
+				options.User.RequireUniqueEmail = true;
 				
 			});
 
-			//MAPPER
-			builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                options.AccessDeniedPath = "/Home/Index";
+            });
+
+            //MAPPER
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 
@@ -133,10 +139,9 @@ namespace YemekSiparis.Web
                 name: "default",
                 pattern: "{controller=Login}/{action=Index}/{id?}");
 
-            app.MapAreaControllerRoute(
-               areaName: "Admin",
-               name: "areas",
-               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                    name: "admin",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

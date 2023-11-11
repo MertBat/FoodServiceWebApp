@@ -27,17 +27,17 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateFood(int id, int stock)
         {
            await stockService.UpdateFoodStock(id, stock);
-            return RedirectToAction("Index");
+            return RedirectToAction("Stock", "Admin");
         }
         public async Task<IActionResult> UpdateExtra(int id, int stock)
         {
             await stockService.UpdateExtraStock(id, stock);
-            return RedirectToAction("Index");
+            return RedirectToAction("Stock", "Admin");
         }
         public async Task<IActionResult> UpdateBeverage(int id, int stock)
         {
             await stockService.UpdateBeverageStock(id, stock);
-            return RedirectToAction("Index");
+            return RedirectToAction("Stock", "Admin");
         }
     }
 }

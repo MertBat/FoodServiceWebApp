@@ -32,7 +32,7 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         {
             bool result = await employeeService.createEmployee(employeeCreateDTO);
             if (result)
-                return RedirectToAction("Index");
+                return RedirectToAction("Employee", "Admin");
             return View(employeeCreateDTO);
         }
 
@@ -45,19 +45,19 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Update(EmployeeUpdateDTO employeeUpdateDTO)
         {
             bool result = await employeeService.updateEmployee(employeeUpdateDTO);
-            return RedirectToAction("Index");
+            return RedirectToAction("Employee", "Admin");
         }
 
         public async Task<IActionResult> Fire(int id)
         {
            await employeeService.FireEmployee(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Employee", "Admin");
         }
 
         public async Task<IActionResult> Hire(int id)
         {
             await employeeService.HireEmployee(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Employee", "Admin");
         }
 
     }

@@ -1,8 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<h2>Siparis Tamamlandi</h2>
-<a type="button" class="btn btn-success" asp-action="ResetTheOrders" asp-controller="Buy">Menuye Geri Donmek Icin Tiklayiniz... </a>
+﻿
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
+    .order-completed-container {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .success-message {
+        font-size: 2em;
+        color: #28a745; /* Bootstrap success color */
+        margin-bottom: 20px;
+    }
+
+    .back-to-menu-btn {
+        font-size: 1.5em;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff; /* Bootstrap primary color */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .back-to-menu-btn:hover {
+            background-color: #0056b3; /* Bootstrap primary dark color */
+        }
+</style>
+
+<div class="container order-completed-container">
+    <div class="success-message">
+        <h2>Sipariş Tamamlandı!</h2>
+    </div>
+    <a class="btn back-to-menu-btn" asp-action="ResetTheOrders" asp-controller="Buy">Menüye Geri Dönmek İçin Tıklayınız</a>
+</div>

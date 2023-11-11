@@ -1,5 +1,4 @@
-﻿
-@using YemekSiparis.Core.Enums;
+﻿@using YemekSiparis.Core.Enums;
 @using YemekSiparis.BLL.Models.ViewModels;
 @model CreateOrderDetailVM
 
@@ -12,9 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
-
-
         body {
             background-color: #f8f9fa;
             font-family: 'Montserrat', sans-serif;
@@ -103,7 +101,9 @@
 <body>
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4 animate__animated animate__fadeInDown">Sipariş Detayları</h1>
+        <h1 class="text-center mb-4 animate__animated animate__fadeInDown">
+            <i class="fas fa-utensils"></i> Sipariş Detayları
+        </h1>
         <hr />
 
         <form asp-action="CreateOrder" id="orderForm">
@@ -111,20 +111,26 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="mb-3">
-                <label for="foodName">Yemek Adı</label>
+                <label for="foodName">
+                    <i class="fas fa-hamburger"></i> Yemek Adı
+                </label>
                 <input type="text" id="foodName" asp-for="Food.Name" class="form-control" readonly />
                 <input type="hidden" id="foodid" asp-for="FoodId" />
                 <span asp-validation-for="Food.Name" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="quantity">Miktar</label>
+                <label for="quantity">
+                    <i class="fas fa-sort-numeric-up-alt"></i> Miktar
+                </label>
                 <input type="number" id="quantity" asp-for="Quantity" onchange="TotalPrice()" class="form-control" min="1" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="food-size">Porsiyon Boyutu</label>
+                <label for="food-size">
+                    <i class="fas fa-utensil-spoon"></i> Porsiyon Boyutu
+                </label>
                 <select id="food-size" asp-for="FoodSize" onchange="TotalPrice()" class="form-select">
                     @foreach (var item in Enum.GetValues(typeof(FoodSize)))
                     {
@@ -135,7 +141,9 @@
             </div>
 
             <div class="mb-3">
-                <label>Extra Seçenekler</label>
+                <label>
+                    <i class="fas fa-plus"></i> Extra Seçenekler
+                </label>
                 <div class="extras-container animate__animated animate__fadeIn">
                     @for (int i = 0; i < Model.Extras.Count; i++)
                     {
@@ -151,7 +159,9 @@
             </div>
 
             <div class="mb-3">
-                <label>İçecek Seçenekleri</label>
+                <label>
+                    <i class="fas fa-coffee"></i> İçecek Seçenekleri
+                </label>
                 <div class="extras-container animate__animated animate__fadeIn">
                     @for (int i = 0; i < Model.Beverages.Count; i++)
                     {
@@ -169,10 +179,12 @@
             <div id="totalPrice" class="text-center animate__animated animate__fadeIn" style="color: #dc3545;"></div>
 
             <div class="mb-3 text-center">
-                <button asp-area="" asp-controller="Basket" asp-action="CreateOrder" class="btn btn-primary btn-lg">Siparişi Tamamla</button>
+                <button asp-area="" asp-controller="Basket" asp-action="CreateOrder" class="btn btn-primary btn-lg">
+                    <i class="fas fa-check"></i> Siparişi Tamamla
+                </button>
             </div>
-        </form>
 
+        </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -189,4 +201,3 @@
     </script>
 </body>
 </html>
-

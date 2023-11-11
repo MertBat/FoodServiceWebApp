@@ -11,7 +11,7 @@
     <div class="card-header">
         <i class="fa-solid fa-person"></i>
         Çalışanlar
-        <a class="btn" asp-area="Admin" asp-action="Create" asp-controller="Employee" style="color: black"><i class="fa-solid fa-plus"></i></a>
+        <a class="btn" href="/Admin/Employee/Create" style="color: black"><i class="fa-solid fa-plus"></i></a>
     </div>
     <div class="card-body">
         <table id="datatablesSimple">
@@ -62,15 +62,15 @@
                             }
                         </th>
                         <td>
-                            <a class="btn" asp-action="Update" asp-route-Id="@item.Id"><i class="fa-solid fa-pen"></i></a>
+                            <a class="btn" href="/Admin/Employee/Update?Id=@item.Id"><i class="fa-solid fa-pen"></i></a>
                             @{
                                 if (item.Status == YemekSiparis.Core.Enums.Status.Passive)
                                 {
-                                    <a class="btn btn-success" asp-action="Hire" asp-route-Id="@item.Id">Işe al</a>
+                                    <a class="btn btn-success"  href="/Admin/Employee/Hire?Id=@item.Id">Işe al</a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-warning" asp-action="Fire" asp-route-Id="@item.Id">Kov</a>
+                                    <a class="btn btn-warning" href="/Admin/Employee/Fire?Id=@item.Id">Kov</a>
                                 }
                             }
                         </td>

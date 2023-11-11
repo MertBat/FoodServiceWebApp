@@ -23,18 +23,18 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Update(int id, string Name)
         {
             await categoryService.UpdateCategory(id,Name);
-            return RedirectToAction("Index");
+            return RedirectToAction("Category", "Admin");
         }
 
         public async Task<IActionResult> Create(string name)
         {
             await categoryService.AddCategory(name);
-            return RedirectToAction("Index");
+            return RedirectToAction("Category", "Admin");
         }
         public async Task<IActionResult> Delete(int id)
         {
             await categoryService.DeleteCategory(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Category", "Admin");
         }
     }
 }

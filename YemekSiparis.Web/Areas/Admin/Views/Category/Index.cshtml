@@ -44,7 +44,7 @@
                         </td>
                         <td>
                             <a class="btn update-button" data-id="@item.Id"><i class="fa-solid fa-pen"></i></a>
-                            <a class="btn" asp-action="Delete" asp-route-Id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                            <a class="btn" href="/Admin/Category/Delete?Id=@item.Id"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                 }
@@ -60,14 +60,14 @@
             var Id = $(this).data('id');
             var Name = $('#Input-' + Id).val();
             if (Name != "") {
-                var updateUrl = '@Url.Action("Update", "Category")' + '?Id=' + Id + '&Name=' + Name;
+                var updateUrl = '/Admin/Category/Update' + '?Id=' + Id + '&Name=' + Name;
                 window.location.href = updateUrl;
             }
         });
         $('.create-button').click(function () {
             var Name = $('#create-name').val();
             if (Name != "") {
-                var createeUrl = '@Url.Action("Create", "Category")' + '?name=' + Name;
+                var createeUrl = '/Admin/Category/Create' + '?name=' + Name;
                 window.location.href = createeUrl;
             }
         });

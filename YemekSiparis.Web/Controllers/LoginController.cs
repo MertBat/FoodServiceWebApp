@@ -35,11 +35,21 @@ namespace YemekSiparis.Web.Controllers
 				var user = await _userManager.FindByNameAsync(loginVM.UserName);
                 if (user.EmailConfirmed == true)
                 {
-                    return RedirectToAction("Index", "MyRegisterProfile");
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var currentRole = roles[0];
+
+                    if (currentRole == "User")
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (currentRole == "Admin")
+                    {
+                        return RedirectToAction("Home", "Admin");
+                    }
                 }
                 else if(user.EmailConfirmed == false)
                 {
-                    _userManager.DeleteAsync(user);
+                    await _userManager.DeleteAsync(user);
                     ModelState.AddModelError("", "Doğrulanmamış Email. Tekrar Kayıt Olunuz!");
                     return View();
                 }

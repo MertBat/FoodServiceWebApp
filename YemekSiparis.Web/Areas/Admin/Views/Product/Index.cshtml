@@ -10,7 +10,7 @@
     <div class="card-header">
         <i class="fa-solid fa-bowl-food"></i>
         Yemekler
-        <button><a asp-area="Admin" asp-action="Create" asp-controller="Product" style="color: black" ><i class="fa-solid fa-plus"></i></a></button>
+        <button><a href="/Admin/Product/Create" style="color: black" ><i class="fa-solid fa-plus"></i></a></button>
     </div>
     <div class="card-body">
         <table id="datatablesSimple">
@@ -44,8 +44,8 @@
                         <td>@item.CategoryName</td>
                         <td>@item.Price</td>
                         <td>
-                            <a class="btn" asp-action="Update" asp-route-Id="@item.Id"><i class="fa-solid fa-pen"></i></a>
-                            <a  class="btn" asp-action="Delete" asp-route-Id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                            <a class="btn" href="/Admin/Product/Update?Id=@item.Id" ><i class="fa-solid fa-pen"></i></a>
+                            <a  class="btn" href="/Admin/Product/Delete?Id=@item.Id"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                 }

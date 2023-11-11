@@ -22,7 +22,7 @@ namespace YemekSiparis.DAL.Mappings
                 AppUserId = "1",
                 Birthdate = new DateTime(1992, 12, 02),
                 CreatedDate = DateTime.Now,
-                Gender = Gender.Male,
+                Gender = Gender.Erkek,
                 Status = Status.Active               
             });
 

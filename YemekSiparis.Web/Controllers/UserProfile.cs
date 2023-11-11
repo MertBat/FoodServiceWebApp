@@ -66,7 +66,7 @@ namespace YemekSiparis.Web.Controllers
             if (result.IsValid)
             {                
                 await _customerService.TUpdateAsync(customer);
-                return View(customer);
+                return RedirectToAction("ProfileDetail");
             }
             ModelState.Clear();
             foreach (var item in result.Errors)

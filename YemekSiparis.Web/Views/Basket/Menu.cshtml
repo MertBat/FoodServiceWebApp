@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <title>@ViewData["Title"]</title>
 </head>
 <body>
@@ -16,34 +16,27 @@
     }
     @if (!string.IsNullOrEmpty(successMessage))
     {
-        <div id="alertDiv" class="alert alert-success alert-dismissible fade show" role="alert">        @successMessage         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>    </div>
+        <div id="alertDiv" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     }
 
     @section scripts {
         <script src="~/js/menu.js"></script>
-}
-@*     @if (!string.IsNullOrEmpty(successMessage))
-    {
-  
-
-       <script>
-            alert('@successMessage');
-       </script>
-       
-    } *@
+    }
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4 animate__animated animate__fadeInDown"><b>Yemek Menüsü</b></h1>
+        <h1 class="text-center mb-4 animate__animated animate__fadeInDown"><b><i class="fas fa-utensils"></i> Yemek Menüsü</b></h1>
 
-
-        <h3 class="text-center mb-3 animate__animated animate__fadeIn">Kategoriler</h3>
+        <h3 class="text-center mb-3 animate__animated animate__fadeIn"><i class="fas fa-clipboard-list"></i> Kategoriler</h3>
 
         <div class="d-flex justify-content-center mb-4 animate__animated animate__fadeInUp">
             <div class="btn-group">
-                <button type="button" class="btn btn-danger btn-menu" onclick="AllList()">Hepsi</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListHamburger()">Hamburger</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPizza()">Pizza</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPasta()">Makarna</button>
+                <button type="button" class="btn btn-danger btn-menu" onclick="AllList()"><i class="fas fa-list"></i> Hepsi</button>
+                <button type="button" class="btn btn-danger btn-menu" onclick="GetListHamburger()"><i class="fas fa-hamburger"></i> Hamburger</button>
+                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPizza()"><i class="fas fa-pizza-slice"></i> Pizza</button>
+                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPasta()"><i class="fas fa-utensil-spoon"></i> Makarna</button>
             </div>
         </div>
 
@@ -59,86 +52,37 @@
         </div>
     </div>
 
+
+
     <script>
-
-
         document.addEventListener("DOMContentLoaded", function () {
             AllList();
         });
-
-
     </script>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
 
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sayfa gölgesi */
+        .fa {
+            margin-right: 5px;
         }
-
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            margin-top: 20px; /* Başlığı biraz aşağı çektik */
-            margin-bottom: 2px; /* Altındaki boşluğu artırdık */
-            color: #dc3545;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Başlık üzerine hafif bir gölge ekledik */
-        }
-
-        h3 {
-            font-family: 'Montserrat', sans-serif;
-            color: #dc3545;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            background-color: #fff; /* Arka plan rengi */
-            padding: 10px;
-            border-radius: 15px; /* Köşe yuvarlama */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Gölge */
-        }
-
-        .btn-menu {
-            margin: 5px;
-            border-radius: 10px;
-            font-size: 16px;
-            padding: 10px 20px;
-            transition: background-color 0.5s, transform 0.5s ease-in-out, box-shadow 0.3s; /* box-shadow ekledik */
-            border: 2px solid #dc3545;
-            background-color: transparent;
-            color: #dc3545;
-        }
-
-            .btn-menu:hover {
-                background-color: #dc3545;
-                color: white;
-                transform: scale(1.05);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Hover sırasında gölge ekledik */
-            }
 
         .card {
-            border: none;
-            margin-bottom: 20px;
-            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s, transform 0.3s;
+            transition: transform 0.3s;
         }
 
             .card:hover {
-                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
                 transform: scale(1.02);
             }
 
-        .animate__animated {
-            animation-duration: 1s;
+        .btn-menu {
+            border-radius: 25px;
         }
-
     </style>
 </body>
 </html>
