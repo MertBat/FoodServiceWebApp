@@ -12,5 +12,7 @@ namespace YemekSiparis.Core.Entities
 
         public Customer Customer { get; set; }
 
+        public int ConfirmCode { get; set; }
+
     }
 }

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using YemekSiparis.BLL.Abstract;
+using YemekSiparis.BLL.Concrete;
 using YemekSiparis.BLL.AutoMapper;
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Beverage;
@@ -17,6 +19,7 @@ using YemekSiparis.Core.IRepositories;
 using YemekSiparis.DAL.Context;
 using YemekSiparis.DAL.Repositories;
 using YemekSiparis.DAL.SeedData;
+using YemekSiparis.Web.Models;
 
 namespace YemekSiparis.Web
 {
@@ -33,11 +36,31 @@ namespace YemekSiparis.Web
             });
 
 
+
+            //Session
+            builder.Services.AddSession();
+            
+
             //CONTEXT
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conStr")));
 
-            //IDENT�TY
-            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            //IDENTÝTY
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<CustomIdentityValidation>();//AddErrorDescriber eklendi
+
+			builder.Services.Configure<IdentityOptions>(options =>
+			{
+				options.User.RequireUniqueEmail = true; // Email adýnýn benzersiz olmasý için
+				
+			});
+
+			//MAPPER
+			builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            //Dependency Injection 
+            builder.Services.AddTransient<ICustomerRepository,CustomerRepository>();
+            builder.Services.AddScoped<ICustomerService,CustomerManager>();
+
+
 
             //Repo
             builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -57,6 +80,7 @@ namespace YemekSiparis.Web
 
             //Automapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
             var app = builder.Build();
             var serviceScope = app.Services.CreateScope();
@@ -80,17 +104,21 @@ namespace YemekSiparis.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication(); // EKLEND�
+            app.UseAuthentication(); 
             app.UseAuthorization();
+
+
+            app.UseSession(); //Eklendi
 
             app.MapAreaControllerRoute(
                 areaName: "Admin",
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Login}/{action=Index}/{id?}");
 
             app.Run();
         }
