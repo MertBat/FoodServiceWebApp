@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using YemekSiparis.BLL.Mapping;
+using YemekSiparis.BLL.Services.Basket.Abstract;
+using YemekSiparis.BLL.Services.Basket.Concrete;
 using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Concrete;
 using YemekSiparis.BLL.AutoMapper;
@@ -54,7 +58,7 @@ namespace YemekSiparis.Web
 			});
 
 			//MAPPER
-			builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+			builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             //Dependency Injection 
             builder.Services.AddTransient<ICustomerRepository,CustomerRepository>();
@@ -67,6 +71,15 @@ namespace YemekSiparis.Web
             builder.Services.AddTransient(typeof(IFoodDietRepository), typeof(FoodDietRepository));
             builder.Services.AddTransient(typeof(ICustomerDetailRepository), typeof(CustomerDetailRepository));
             builder.Services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
+            builder.Services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddTransient<IFoodRepository, FoodRepository>();
+            builder.Services.AddTransient<IExtraRepository, ExtraRepository>();
+            builder.Services.AddTransient<IBeverageRepository, BeverageRepository>();
+            builder.Services.AddTransient<IOrderBagRepository, OrderBagRepository>();
+            builder.Services.AddTransient<IOrderDetailBeverageRepository, OrderDetailBeverageRepository>();
+            builder.Services.AddTransient<IOrderDetailExtraRepository, OrderDetailExtraRepository>();
+            builder.Services.AddTransient<IOrderBagRepository, OrderBagRepository>();
+            builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 
             //Services
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -77,10 +90,19 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<ICustomerDetailService, CustomerDetailService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IGiroService, GiroService>();
+            builder.Services.AddScoped<ICreateOrderService,CreateOrderManager>();
+            builder.Services.AddScoped<IOrderDetailService,OrderDetailManager>();
+            builder.Services.AddScoped<IExtraService,ExtraManager>();
+            builder.Services.AddScoped<IBeverageService,BeverageManager>();
+            builder.Services.AddScoped<IOrderDetailBeverageService,OrderDetailBeverageManager>();
+            builder.Services.AddScoped<IOrderDetailExtraService,OrderDetailExtraManager>();
+            builder.Services.AddScoped<IOrderBagService,OrderBagManager>();
+            builder.Services.AddScoped<IFoodService,FoodManager>();
+            builder.Services.AddScoped<ICustomerService,CustomerManager>();
+          
 
             //Automapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
-
 
             var app = builder.Build();
             var serviceScope = app.Services.CreateScope();

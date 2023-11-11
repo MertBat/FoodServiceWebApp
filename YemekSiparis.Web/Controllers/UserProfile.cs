@@ -1,0 +1,110 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using YemekSiparis.BLL.Models.ViewModels;
+using YemekSiparis.BLL.Services.Basket.Abstract;
+using YemekSiparis.BLL.Validations;
+using YemekSiparis.Core.Entities;
+using YemekSiparis.Core.Enums;
+
+namespace YemekSiparis.Web.Controllers
+{
+    public class UserProfile : Controller
+    {
+        private readonly UserManager<AppUser> _userManager;
+        private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
+        private readonly IOrderBagService _orderBagService;
+        private readonly IOrderDetailService _orderDetailService;
+
+        public UserProfile(UserManager<AppUser> userManager, ICustomerService customerService, IMapper mapper,IOrderBagService orderBagService,IOrderDetailService orderDetailService)
+        {
+            _userManager = userManager;
+            _customerService = customerService;
+            _mapper = mapper;
+            _orderBagService = orderBagService;
+            _orderDetailService = orderDetailService;
+        }
+
+        public IActionResult Index()
+        {
+            HttpContext.Response.Cookies.Append("CustomerId", "1");
+
+            return RedirectToAction("ProfileDetail");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProfileDetail()
+        {
+            Customer customer = new Customer();
+            customer.Id = Convert.ToInt32(Request.Cookies["CustomerId"]);
+            customer = await _customerService.GetByIdAsync(customer.Id);
+            return View(customer);
+        }
+
+        public async Task<IActionResult> ProfileUpdate(int id)
+        {
+
+            Customer customer = await _customerService.GetByIdAsync(id);
+            return View(customer);
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProfileUpdate(CustomerVM customerVM)
+        {
+            CustomerVMValidator validationRules = new CustomerVMValidator();
+
+            var result = validationRules.Validate(customerVM);
+            Customer customer = _mapper.Map<Customer>(customerVM);
+            customer.AppUserId = "1";
+            if (result.IsValid)
+            {                
+                await _customerService.UpdateAsync(customer);
+                return View(customer);
+            }
+            ModelState.Clear();
+            foreach (var item in result.Errors)
+            {
+                ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+            }
+
+            return View(customer);
+        }
+
+        //TODOO SİPARİŞLERİ GÖRÜNTÜLEYİ YAP VE BASKET CONTROLLERDA GELEN NESNELERİ ACTİVE OLUP OLMAIDINGA GÖRE KONTROL ET
+
+        public async Task<IActionResult> Orders()
+        {
+            Expression<Func<OrderBag, object>>[] includes = new Expression<Func<OrderBag, object>>[]
+            {
+                x=>x.Customer,x=>x.OrderDetails
+
+            };
+
+            int id = Convert.ToInt32(Request.Cookies["CustomerId"]);
+
+            List<OrderBag> orders = await _orderBagService.GetAllIncludeOrderss(x => x.CustomerId == id, includes);
+
+            OrderDetailVM orderDetail = new OrderDetailVM();
+           
+            foreach (OrderBag item in orders) 
+            {
+                orderDetail.OrderDetails.AddRange(await _orderDetailService.AllThenInclude(x => x.OrderBagID == item.Id && x.Status == Status.Passive));
+            }
+            return View(orderDetail);
+        }
+
+
+        public async Task<IActionResult> OrderHardDelete(int id)
+        {
+            await _orderDetailService.HardDeleteAsync(id);
+
+            return  RedirectToAction("Orders");
+        }
+
+    }
+}

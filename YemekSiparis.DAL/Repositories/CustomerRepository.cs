@@ -11,9 +11,11 @@ namespace YemekSiparis.DAL.Repositories
 {
     public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
+        private readonly AppDbContext _context;
+
         public CustomerRepository(AppDbContext context) : base(context)
         {
-
+            _context = context;
         }
     }
 }

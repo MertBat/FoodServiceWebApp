@@ -11,7 +11,7 @@ namespace YemekSiparis.Core.Entities
     public abstract class BaseEntity : IBaseEntity
     {
         public int Id { get ; set ; }
-        public Status Status { get ; set ; }
+        public Status Status { get; set; } 
         public DateTime CreatedDate { get ; set ; } 
         public DateTime ModifiedDate { get ; set ; }
         public DateTime DeletedDate { get ; set ; }
