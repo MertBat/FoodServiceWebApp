@@ -6,7 +6,7 @@ using YemekSiparis.BLL.Services.Admin.Bevarage;
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class BeverageController : Controller
     {
         private readonly IBeverageService beverageService;
@@ -28,10 +28,14 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BeverageCreateDTO beverageCreate)
         {
-            bool result = await beverageService.AddExtra(beverageCreate);
-            if (result == false)
+            if (ModelState.IsValid)
+            {
+                bool result = await beverageService.AddExtra(beverageCreate);
+                if (result == false)
+                    return View(beverageCreate);
+                return RedirectToAction("Index");
+            }
                 return View(beverageCreate);
-            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Update(int id)
@@ -42,10 +46,14 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(BeverageUpdateDTO beverageUpdateDTO)
         {
-            bool result = await beverageService.UpdateExtra(beverageUpdateDTO);
-            if (result == false)
-                return View(beverageUpdateDTO);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                bool result = await beverageService.UpdateExtra(beverageUpdateDTO);
+                if (result == false)
+                    return View(beverageUpdateDTO);
+                return RedirectToAction("Index");
+            }
+            return View(beverageUpdateDTO);
         }
 
         public async Task<IActionResult> Delete(int id)
