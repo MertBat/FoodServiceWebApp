@@ -50,7 +50,7 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
         public async Task<bool> DeleteAsync(int id)
         {
-            if (id <= 0)
+            if (id > 0)
             {
                 await _baseRepository.DeleteAsync(id);
                 return true;
@@ -89,7 +89,7 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
         public  async Task<bool> HardDeleteAsync(int id)
         {
-            if (id <= 0)
+            if (id > 0)
             {
                 await _baseRepository.HardDeleteAsync(id);
                 return true;

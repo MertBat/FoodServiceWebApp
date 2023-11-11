@@ -56,6 +56,7 @@ namespace YemekSiparis.Web.Controllers
 
         public IActionResult Menu()
         {
+          
 
             return View();
         }
@@ -150,9 +151,10 @@ namespace YemekSiparis.Web.Controllers
             {
                 x=>x.Beverages, x=>x.Extras,x=>x.Food
             };
+
             if (orderBag != null)
             {
-                orderBag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == bag.Id, includes));
+                orderBag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == orderBag.Id, includes));
                 await _orderBagService.DefaultUpdate(orderBag);
             }
             else
@@ -162,9 +164,9 @@ namespace YemekSiparis.Web.Controllers
             }
             orderDetail.UnitPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Id == orderDetail.Id && x.Status == Status.Active, includes));
             await _orderDetailService.DefaultUpdateAsync(orderDetail);
-
+            TempData["Success"] = "Ürün Sepete Eklendi";
             DataClear.Clear();
-            return RedirectToAction("Menu");
+            return View("Menu");
         }
 
 
@@ -217,42 +219,3 @@ namespace YemekSiparis.Web.Controllers
     }
 }
 
-
-
-//foreach (Beverage item in BeverageData.Beverages)
-//{
-//    beverage.OrderDetailID = orderDetail.Id;
-//    beverage.BeverageID = item.Id;
-//    await _orderBeverageService.AddAsync(beverage);
-//}
-
-
-//beverage.Beverage = await _beverageRepository.GetByIdAsync(detailVM.BeverageId);
-//beverage.OrderDetail = orderDetail;
-//orderDetail.Beverages.Add(beverage);
-
-
-//extra.Extra = await _extraRepository.GetByIdAsync(detailVM.ExtraId);
-//extra.OrderDetail = orderDetail;
-//orderDetail.Extras.Add(extra);
-
-
-//foreach (Extra item in ExtraData.Extras)
-//{
-//    extra.OrderDetailID = orderDetail.Id;
-//    extra.ExtraID = item.Id;
-//    await _orderExtraService.AddAsync(extra);
-//}
-
-
-//bag.CustomerId = 1;
-//bag.OrderStatus = detailVM.OrderStatus;
-//await _orderBagRepository.AddAsync(bag);
-
-
-//Expression<Func<OrderDetail, object>>[] deneme = new Expression<Func<OrderDetail, object>>[]
-//{
-//    x=> x.Beverages,x=> x.Extras
-//};
-
-//List<OrderDetail> order = await _orderDetailRepository.AllIncludeOrderDetail(deneme);

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using YemekSiparis.BLL.Helper;
@@ -39,6 +41,28 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
             _dbContext.OrderBags.Update(orderBag);
             return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<List<OrderBag>> GetAllIncludeOrderss(Expression<Func<OrderBag, bool>> expression, params Expression<Func<OrderBag, object>>[] includes)
+        {
+            IQueryable<OrderBag> query = _dbContext.OrderBags.AsQueryable();
+
+            if (expression != null) 
+            {
+                query = query.Where(expression);
+            }
+
+            if (includes != null)
+            {
+                foreach (var item in includes)
+                {
+                query = query.Include(item);
+                    
+                }
+            }
+
+            return  await query.ToListAsync();
+
         }
 
         public async Task<int> GetOrderBagID(OrderBag orderBag)

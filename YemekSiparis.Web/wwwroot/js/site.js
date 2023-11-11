@@ -7,8 +7,6 @@
                 $("#HamburgerList").html(""),
                 $("#PastaList").html(""),
                 $("#PizzaList").html("");
-
-
         }
     })
 }

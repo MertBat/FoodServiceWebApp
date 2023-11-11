@@ -12,27 +12,130 @@ namespace YemekSiparis.Web.Controllers
         private readonly IOrderDetailService _orderDetailService;
         private readonly IOrderBagService _orderBagService;
 
-        public BuyController(IOrderDetailService orderDetailService,IOrderBagService orderBagService)
+        public BuyController(IOrderDetailService orderDetailService, IOrderBagService orderBagService)
         {
             _orderDetailService = orderDetailService;
             _orderBagService = orderBagService;
         }
 
-        public async Task<IActionResult> Payment( )
+        public async Task<IActionResult> Payment()
         {
-            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x=> x.CustomerId == 1 && x.Status == Status.Active);
+            //OrderBag orderBag = await _orderBagService.GetByWhereAsync(x=> x.CustomerId == 1 && x.Status == Status.Active);
+
+            //OrderDetailVM orderDetailVM = new OrderDetailVM();
+            //Expression<Func<OrderDetail, object>>[] includes = new Expression<Func<OrderDetail, object>>[]
+            //{
+            //    //.Include(o => o.OrderDetails)
+            //    //      .ThenInclude(od => od.Beverage)
+            //    //  .FirstOrDefault();
+            //x =>x.OrderBag,x=>x.Beverages,x=>x.Food,x=>x.Extras
+            //};
+            //orderDetailVM.OrderDetails = await _orderDetailService.AllThenInclude(x=>x.OrderBagID == orderBag.Id);
+
+            //return View(orderDetailVM);
+
+
+
+            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+
+            if (orderBag == null)
+            {
+
+                ViewBag.EmptyCartWarning = "Sepetiniz şu anda boş.";
+                return View(new OrderDetailVM());
+            }
 
             OrderDetailVM orderDetailVM = new OrderDetailVM();
             Expression<Func<OrderDetail, object>>[] includes = new Expression<Func<OrderDetail, object>>[]
             {
-                //.Include(o => o.OrderDetails)
-                //      .ThenInclude(od => od.Beverage)
-                //  .FirstOrDefault();
-            x =>x.OrderBag,x=>x.Beverages,x=>x.Food,x=>x.Extras
+                x => x.OrderBag,
+                x => x.Beverages,
+                x => x.Food,
+                x => x.Extras
             };
-            orderDetailVM.OrderDetails = await _orderDetailService.AllThenInclude(x=>x.OrderBagID == orderBag.Id);
 
+            orderDetailVM.OrderDetails = await _orderDetailService.AllThenInclude(x => x.OrderBagID == orderBag.Id && x.Status == Status.Active);
+            orderBag.TotalPrice = 0;
+            foreach (OrderDetail item in orderDetailVM.OrderDetails)
+            {
+                orderBag.TotalPrice += item.UnitPrice;
+            }
+
+            await _orderBagService.DefaultUpdate(orderBag);
+
+            orderDetailVM.OrderBagId = orderBag.Id;
             return View(orderDetailVM);
         }
+
+
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            await _orderDetailService.DeleteAsync(id);
+            return RedirectToAction("Payment");
+        }
+
+
+        public async Task<IActionResult> DeleteOrder(int orderBagId)
+        {
+
+            List<OrderDetail> orderDetails = await _orderDetailService.GetAllAsync(x => x.OrderBagID == orderBagId);
+
+            foreach (OrderDetail item in orderDetails)
+            {
+                item.Status = Status.Passive;
+
+                await _orderDetailService.DefaultUpdateAsync(item);
+            }
+            await _orderBagService.DeleteAsync(orderBagId);
+            return RedirectToAction("Payment");
+        }
+
+        public IActionResult CompleteOrder()
+        {
+            return View("OrderCompleted");
+        }
+
+        //SİPARİŞ TAMAMLA
+        public async Task<IActionResult> ResetTheOrders()
+        {
+
+            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+            orderBag.Status = Status.Passive;
+            await _orderBagService.DefaultUpdate(orderBag);
+
+            OrderDetailVM orderDetailVM = new OrderDetailVM();
+            orderDetailVM.OrderDetails = await _orderDetailService.AllThenInclude(x => x.OrderBagID == orderBag.Id && x.Status == Status.Active);
+            foreach (OrderDetail item in orderDetailVM.OrderDetails)
+            {
+                item.Status = Status.Passive;
+                await _orderDetailService.DefaultUpdateAsync(item);
+            }
+            //Passive(null,orderDetailVM.OrderDetails);
+            //Passive(orderBag, orderDetailVM.OrderDetails);
+            return RedirectToAction("Menu", "Basket");
+
+        }
+
+
+        //public async Task Passive(OrderBag orderbag, List<OrderDetail> orderDetails)
+        //{
+
+        //    OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+        //    orderBag.Status = Status.Passive;
+        //    await _orderBagService.DefaultUpdate(orderBag);
+
+        //    foreach (OrderDetail item in orderDetails)
+        //    {
+        //        item.Status = Status.Passive;
+        //        await _orderDetailService.DefaultUpdateAsync(item);
+        //    }
+        //}
     }
 }
+
+
+
+
+
+
+//TODO SEPETTE ÜRÜN KALMADIGI ZAMAN BAGİ SİL

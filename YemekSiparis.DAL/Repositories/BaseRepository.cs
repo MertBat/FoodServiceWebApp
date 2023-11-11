@@ -80,19 +80,30 @@ namespace YemekSiparis.DAL.Repositories
 
         public async Task<bool> HardDeleteAsync(int id)
         {
-            await Task.Run(() => _context.Remove(GetByIdAsync(id)));
+            T entity = await GetByIdAsync(id);
+            await Task.Run(() => _context.Set<T>().Remove(entity));
             return await SaveAsync();
         }
 
         public async Task<bool> SaveAsync()
         {
-            return await _context.SaveChangesAsync() > 0;
+            try
+            {
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString());
+                return false;   
+            }
+        
         }
 
         public async Task<bool> UpdateAsync(T entity)
         {
           
-            entity.DeletedDate = DateTime.Now;
+            entity.ModifiedDate = DateTime.Now;
             entity.Status = Status.Modified;
             _context.Set<T>().Update(entity);
             return await SaveAsync();

@@ -43,6 +43,7 @@ namespace YemekSiparis.Web
             builder.Services.AddTransient<IOrderDetailBeverageRepository, OrderDetailBeverageRepository>();
             builder.Services.AddTransient<IOrderDetailExtraRepository, OrderDetailExtraRepository>();
             builder.Services.AddTransient<IOrderBagRepository, OrderBagRepository>();
+            builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 
             //SERVÝCE INJECTION
             builder.Services.AddScoped<ICreateOrderService,CreateOrderManager>();
@@ -53,6 +54,7 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IOrderDetailExtraService,OrderDetailExtraManager>();
             builder.Services.AddScoped<IOrderBagService,OrderBagManager>();
             builder.Services.AddScoped<IFoodService,FoodManager>();
+            builder.Services.AddScoped<ICustomerService,CustomerManager>();
 
 
             var app = builder.Build();
@@ -67,10 +69,6 @@ namespace YemekSiparis.Web
                 AdminSeedData.Seed(userManager,roleManager,_context);
 
         
-
-          
-
-
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
                 {
