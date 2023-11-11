@@ -7,10 +7,12 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.Core.IRepositories
 {
+
     public interface ICustomerRepository : IBaseRepository<Customer>
     {
 
         
+
 
     }
 }

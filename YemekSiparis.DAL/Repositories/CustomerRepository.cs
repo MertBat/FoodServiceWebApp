@@ -17,11 +17,5 @@ namespace YemekSiparis.DAL.Repositories
         {
             _context = context;
         }
-
-
-
-
-
-
     }
 }
