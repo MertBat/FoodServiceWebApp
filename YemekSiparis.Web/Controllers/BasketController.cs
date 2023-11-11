@@ -164,6 +164,7 @@ namespace YemekSiparis.Web.Controllers
             await _orderDetailService.DefaultUpdateAsync(orderDetail);
 
             DataClear.Clear();
+           
             return RedirectToAction("Menu");
         }
 
@@ -211,6 +212,11 @@ namespace YemekSiparis.Web.Controllers
             return PartialView("_TotalPricePartial", detailVM);
 
 
+        }
+
+        public async Task<IActionResult> Success()
+        {
+            return View();
         }
 
 

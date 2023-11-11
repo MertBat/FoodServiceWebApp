@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YemekSiparis.Core.Entities;
 using YemekSiparis.Core.Enums;
-using YemekSiparis.DAL.Migrations;
+
 
 namespace YemekSiparis.BLL.Models.ViewModels
 {

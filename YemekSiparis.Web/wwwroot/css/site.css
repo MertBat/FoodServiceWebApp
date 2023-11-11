@@ -13,6 +13,4 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-}
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="DataLayerExtensions\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
