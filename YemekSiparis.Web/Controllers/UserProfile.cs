@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.BLL.Services.Basket.Abstract;
@@ -40,8 +41,8 @@ namespace YemekSiparis.Web.Controllers
         public async Task<IActionResult> ProfileDetail()
         {
             Customer customer = new Customer();
-            customer.Id = Convert.ToInt32(Request.Cookies["CustomerId"]);
-            customer = await _customerService.TGetByIdAsync(customer.Id);
+            int customerId = await CustomerId();
+            customer = await _customerService.TGetByIdAsync(customerId);
             return View(customer);
         }
 
@@ -61,7 +62,7 @@ namespace YemekSiparis.Web.Controllers
 
             var result = validationRules.Validate(customerVM);
             Customer customer = _mapper.Map<Customer>(customerVM);
-            customer.AppUserId = "1";
+            customer.AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (result.IsValid)
             {                
                 await _customerService.TUpdateAsync(customer);
@@ -86,7 +87,7 @@ namespace YemekSiparis.Web.Controllers
 
             };
 
-            int id = Convert.ToInt32(Request.Cookies["CustomerId"]);
+            int id = await CustomerId();
 
             List<OrderBag> orders = await _orderBagService.GetAllIncludeOrderss(x => x.CustomerId == id, includes);
 
@@ -106,6 +107,21 @@ namespace YemekSiparis.Web.Controllers
 
             return  RedirectToAction("Orders");
         }
+
+
+
+        [NonAction]
+        public async Task<int> CustomerId()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            AppUser appUser = await _userManager.FindByIdAsync(userId);
+            Customer customer = await _customerService.TGetByWhereAsync(x => x.AppUserId == appUser.Id);
+
+            return customer.Id;
+
+        }
+
+
 
     }
 }

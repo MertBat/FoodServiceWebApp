@@ -65,13 +65,13 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
         }
 
-        public async Task<int> GetOrderBagID(OrderBag orderBag)
+        public async Task<int> GetOrderBagID(OrderBag orderBag , int customerId)
         {
             if(orderBag == null) 
                 return 0;
             else
             {
-                orderBag.CustomerId = 1;
+                orderBag.CustomerId = customerId;
                 orderBag.OrderStatus = OrderStatus.InProgress;
                 await _baseRepository.AddAsync(orderBag);
                 return orderBag.Id;

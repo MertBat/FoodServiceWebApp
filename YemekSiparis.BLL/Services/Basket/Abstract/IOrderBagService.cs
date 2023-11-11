@@ -4,14 +4,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.BLL.Services.Basket.Abstract
 {
-    public interface IOrderBagService : IBaseService<OrderBag> 
+    public interface IOrderBagService : IBaseService<OrderBag>
     {
 
-        Task<int> GetOrderBagID(OrderBag orderBag);
+        Task<int> GetOrderBagID(OrderBag orderBag, int customerId );
 
         Task<decimal> TotalPayment(List<OrderDetail> orderDetails);
 

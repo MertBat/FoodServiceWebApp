@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.BLL.Services.Basket.Abstract;
 using YemekSiparis.Core.Entities;
@@ -11,36 +14,25 @@ namespace YemekSiparis.Web.Controllers
     {
         private readonly IOrderDetailService _orderDetailService;
         private readonly IOrderBagService _orderBagService;
+        private readonly UserManager<AppUser> userManager;
+        private readonly ICustomerService customerService;
 
-        public BuyController(IOrderDetailService orderDetailService, IOrderBagService orderBagService)
+        public BuyController(IOrderDetailService orderDetailService, IOrderBagService orderBagService,UserManager<AppUser> userManager,ICustomerService customerService)
         {
             _orderDetailService = orderDetailService;
             _orderBagService = orderBagService;
+            this.userManager = userManager;
+            this.customerService = customerService;
         }
 
         public async Task<IActionResult> Payment()
         {
-            //OrderBag orderBag = await _orderBagService.GetByWhereAsync(x=> x.CustomerId == 1 && x.Status == Status.Active);
-
-            //OrderDetailVM orderDetailVM = new OrderDetailVM();
-            //Expression<Func<OrderDetail, object>>[] includes = new Expression<Func<OrderDetail, object>>[]
-            //{
-            //    //.Include(o => o.OrderDetails)
-            //    //      .ThenInclude(od => od.Beverage)
-            //    //  .FirstOrDefault();
-            //x =>x.OrderBag,x=>x.Beverages,x=>x.Food,x=>x.Extras
-            //};
-            //orderDetailVM.OrderDetails = await _orderDetailService.AllThenInclude(x=>x.OrderBagID == orderBag.Id);
-
-            //return View(orderDetailVM);
-
-
-
-            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+         
+            int customerId = await CustomerId();
+            OrderBag orderBag = await _orderBagService.GetByWhereAsync( x => x.CustomerId == customerId && x.Status == Status.Active);
 
             if (orderBag == null)
             {
-
                 ViewBag.EmptyCartWarning = "Sepetiniz şu anda boş.";
                 return View(new OrderDetailVM());
             }
@@ -98,8 +90,8 @@ namespace YemekSiparis.Web.Controllers
         //SİPARİŞ TAMAMLA
         public async Task<IActionResult> ResetTheOrders()
         {
-
-            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+            int customerId = await CustomerId();
+            OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == customerId && x.Status == Status.Active);
             orderBag.Status = Status.Passive;
             await _orderBagService.DefaultUpdate(orderBag);
 
@@ -116,20 +108,20 @@ namespace YemekSiparis.Web.Controllers
 
         }
 
+        [NonAction]
+        public async Task<int> CustomerId()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            AppUser appUser = await userManager.FindByIdAsync(userId);
+            Customer customer = await customerService.TGetByWhereAsync(x => x.AppUserId == appUser.Id);
 
-        //public async Task Passive(OrderBag orderbag, List<OrderDetail> orderDetails)
-        //{
+            return customer.Id;
 
-        //    OrderBag orderBag = await _orderBagService.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
-        //    orderBag.Status = Status.Passive;
-        //    await _orderBagService.DefaultUpdate(orderBag);
+        }
 
-        //    foreach (OrderDetail item in orderDetails)
-        //    {
-        //        item.Status = Status.Passive;
-        //        await _orderDetailService.DefaultUpdateAsync(item);
-        //    }
-        //}
+
+
+
     }
 }
 

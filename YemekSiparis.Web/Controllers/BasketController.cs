@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Helper;
 using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.BLL.Services.Basket.Abstract;
@@ -33,8 +35,9 @@ namespace YemekSiparis.Web.Controllers
         private readonly IOrderDetailExtraService _orderExtraService;
         private readonly IOrderBagService _orderBagService;
         private readonly IMapper _mapper;
+        private readonly ICustomerService customerService;
 
-        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService, IOrderBagService orderBagService,IMapper mapper)
+        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService, IOrderBagService orderBagService,IMapper mapper,ICustomerService customerService)
         {
             _baseRepository = baseRepository;
             _extraRepository = extraRepository;
@@ -52,11 +55,11 @@ namespace YemekSiparis.Web.Controllers
             _orderExtraService = orderExtraService;
             _orderBagService = orderBagService;
             _mapper = mapper;
+            this.customerService = customerService;
         }
 
         public IActionResult Menu()
         {
-          
 
             return View();
         }
@@ -124,13 +127,18 @@ namespace YemekSiparis.Web.Controllers
             CreateOrderDetailVMValidator validator = new CreateOrderDetailVMValidator();
             var result = validator.Validate(detailVM);
 
-            OrderBag orderBag = await _orderBagRepository.GetByWhereAsync(x => x.CustomerId == 1 && x.Status == Status.Active);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            AppUser appUser = await _userManager.FindByIdAsync(userId);
+            Customer customer = await customerService.TGetByWhereAsync(x => x.AppUserId == appUser.Id);
+
+            OrderBag orderBag = await _orderBagRepository.GetByWhereAsync(x => x.CustomerId == customer.Id && x.Status == Status.Active);
+
             OrderBag bag = new OrderBag();
 
             OrderDetail orderDetail = new OrderDetail();
             if (orderBag == null)
             {
-                orderDetail.OrderBagID = await _orderBagService.GetOrderBagID(bag);
+                orderDetail.OrderBagID = await _orderBagService.GetOrderBagID(bag,customer.Id);
             }
             else
                 orderDetail.OrderBagID = orderBag.Id;
