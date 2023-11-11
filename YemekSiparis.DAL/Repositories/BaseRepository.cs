@@ -14,7 +14,7 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.DAL.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity, new()
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private readonly AppDbContext _context;
 
@@ -47,7 +47,7 @@ namespace YemekSiparis.DAL.Repositories
         public async Task<bool> DeleteAsync(int id)
         {
             T entity = await GetByIdAsync(id);
-            
+
             entity.DeletedDate = DateTime.Now;
             entity.Status = Status.Passive;
             _context.Set<T>().Update(entity);
@@ -91,7 +91,7 @@ namespace YemekSiparis.DAL.Repositories
 
         public async Task<bool> UpdateAsync(T entity)
         {
-          
+
             entity.DeletedDate = DateTime.Now;
             entity.Status = Status.Modified;
             _context.Set<T>().Update(entity);
