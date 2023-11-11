@@ -7,7 +7,7 @@ using YemekSiparis.BLL.Models.DTOs;
 
 namespace YemekSiparis.BLL.Services.Admin.Bevarage
 {
-    public interface IBeverageService
+    public interface IBeverageAdminService
     {
         Task<List<BeverageListDTO>> GetExtras();
         Task<bool> AddExtra(BeverageCreateDTO extra);

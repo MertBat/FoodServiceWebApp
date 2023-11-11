@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YemekSiparis.BLL.Models.DTOs;
+using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.BLL.AutoMapper
@@ -27,6 +28,8 @@ namespace YemekSiparis.BLL.AutoMapper
             CreateMap<Extra, StockProductsDTO>().ReverseMap();
             CreateMap<Employee, EmployeeUpdateDTO>().ReverseMap();
             CreateMap<Employee, EmployeeCreateDTO>().ReverseMap();
+            CreateMap<CreateOrderDetailVM, OrderDetail>().ReverseMap();
+            CreateMap<CustomerVM, Customer>().ReverseMap();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.BLL.Services.Basket.Abstract;
 using YemekSiparis.BLL.Validations;
@@ -40,14 +41,14 @@ namespace YemekSiparis.Web.Controllers
         {
             Customer customer = new Customer();
             customer.Id = Convert.ToInt32(Request.Cookies["CustomerId"]);
-            customer = await _customerService.GetByIdAsync(customer.Id);
+            customer = await _customerService.TGetByIdAsync(customer.Id);
             return View(customer);
         }
 
         public async Task<IActionResult> ProfileUpdate(int id)
         {
 
-            Customer customer = await _customerService.GetByIdAsync(id);
+            Customer customer = await _customerService.TGetByIdAsync(id);
             return View(customer);
 
         }
@@ -63,7 +64,7 @@ namespace YemekSiparis.Web.Controllers
             customer.AppUserId = "1";
             if (result.IsValid)
             {                
-                await _customerService.UpdateAsync(customer);
+                await _customerService.TUpdateAsync(customer);
                 return View(customer);
             }
             ModelState.Clear();

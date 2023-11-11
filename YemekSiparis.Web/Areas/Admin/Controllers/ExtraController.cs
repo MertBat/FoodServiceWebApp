@@ -10,9 +10,9 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ExtraController : Controller
     {
-        private readonly IExtraService extraService;
+        private readonly IExtraAdminService extraService;
 
-        public ExtraController(IExtraService extraService)
+        public ExtraController(IExtraAdminService extraService)
         {
             this.extraService = extraService;
         }

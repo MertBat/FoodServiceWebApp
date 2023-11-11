@@ -28,6 +28,7 @@ namespace YemekSiparis.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConfirmCode = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -57,6 +58,7 @@ namespace YemekSiparis.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
+                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -132,6 +134,7 @@ namespace YemekSiparis.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -255,9 +258,9 @@ namespace YemekSiparis.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: true),
+                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -315,7 +318,7 @@ namespace YemekSiparis.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -335,7 +338,7 @@ namespace YemekSiparis.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodDiet",
+                name: "FoodDiets",
                 columns: table => new
                 {
                     FoodID = table.Column<int>(type: "int", nullable: false),
@@ -343,15 +346,15 @@ namespace YemekSiparis.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodDiet", x => new { x.DietID, x.FoodID });
+                    table.PrimaryKey("PK_FoodDiets", x => new { x.DietID, x.FoodID });
                     table.ForeignKey(
-                        name: "FK_FoodDiet_Diets_DietID",
+                        name: "FK_FoodDiets_Diets_DietID",
                         column: x => x.DietID,
                         principalTable: "Diets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FoodDiet_Foods_FoodID",
+                        name: "FK_FoodDiets_Foods_FoodID",
                         column: x => x.FoodID,
                         principalTable: "Foods",
                         principalColumn: "Id",
@@ -390,7 +393,7 @@ namespace YemekSiparis.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetailBeverage",
+                name: "OrderDetailBeverages",
                 columns: table => new
                 {
                     OrderDetailID = table.Column<int>(type: "int", nullable: false),
@@ -398,15 +401,15 @@ namespace YemekSiparis.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetailBeverage", x => new { x.BeverageID, x.OrderDetailID });
+                    table.PrimaryKey("PK_OrderDetailBeverages", x => new { x.BeverageID, x.OrderDetailID });
                     table.ForeignKey(
-                        name: "FK_OrderDetailBeverage_Beverages_BeverageID",
+                        name: "FK_OrderDetailBeverages_Beverages_BeverageID",
                         column: x => x.BeverageID,
                         principalTable: "Beverages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetailBeverage_OrderDetails_OrderDetailID",
+                        name: "FK_OrderDetailBeverages_OrderDetails_OrderDetailID",
                         column: x => x.OrderDetailID,
                         principalTable: "OrderDetails",
                         principalColumn: "Id",
@@ -414,7 +417,7 @@ namespace YemekSiparis.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetailExtra",
+                name: "OrderDetailExtras",
                 columns: table => new
                 {
                     OrderDetailID = table.Column<int>(type: "int", nullable: false),
@@ -422,15 +425,15 @@ namespace YemekSiparis.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetailExtra", x => new { x.OrderDetailID, x.ExtraID });
+                    table.PrimaryKey("PK_OrderDetailExtras", x => new { x.OrderDetailID, x.ExtraID });
                     table.ForeignKey(
-                        name: "FK_OrderDetailExtra_Extras_ExtraID",
+                        name: "FK_OrderDetailExtras_Extras_ExtraID",
                         column: x => x.ExtraID,
                         principalTable: "Extras",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetailExtra_OrderDetails_OrderDetailID",
+                        name: "FK_OrderDetailExtras_OrderDetails_OrderDetailID",
                         column: x => x.OrderDetailID,
                         principalTable: "OrderDetails",
                         principalColumn: "Id",
@@ -439,18 +442,18 @@ namespace YemekSiparis.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "113b5b06-95d8-4560-b2f9-86dba196f9e1", "eren.colk01@gmail.com", false, false, null, null, null, null, null, false, "4ffb78ba-b9d8-4cbe-9c44-51ae3537ac30", false, "erencolak" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "ConfirmCode", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, "de5af8d0-743d-4340-9315-a3a45dd5b8e1", 0, "eren.colk01@gmail.com", false, false, null, null, null, null, null, false, "a75a0234-ca08-4db6-9d33-df6732b8948c", false, "erencolak" });
 
             migrationBuilder.InsertData(
                 table: "Beverages",
-                columns: new[] { "Id", "CreatedDate", "DeletedDate", "ModifiedDate", "Name", "Price", "Status", "Stock" },
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "IsSelected", "ModifiedDate", "Name", "Price", "Status", "Stock" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3067), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kola", 12.00m, 1, 30 },
-                    { 2, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3078), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ayran", 8.50m, 1, 45 },
-                    { 3, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3081), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Soda", 6.00m, 1, 53 },
-                    { 4, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3083), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Su", 4.50m, 1, 46 }
+                    { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1171), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kola", 12.00m, 1, 30 },
+                    { 2, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1190), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ayran", 8.50m, 1, 45 },
+                    { 3, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1193), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Soda", 6.00m, 1, 53 },
+                    { 4, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1196), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Su", 4.50m, 1, 46 }
                 });
 
             migrationBuilder.InsertData(
@@ -458,10 +461,10 @@ namespace YemekSiparis.DAL.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "ModifiedDate", "Name", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3154), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hamburger", 1 },
-                    { 2, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3158), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pizza", 1 },
-                    { 3, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3161), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Makarna", 1 },
-                    { 4, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3163), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Döner", 1 }
+                    { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1353), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hamburger", 1 },
+                    { 2, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1362), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pizza", 1 },
+                    { 3, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1365), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Makarna", 1 },
+                    { 4, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1368), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Döner", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -469,8 +472,8 @@ namespace YemekSiparis.DAL.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "ModifiedDate", "Name", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3484), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sağlıkla Tüketebilirsiniz", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Glutensiz", 1 },
-                    { 2, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3489), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hayvanları koruyalım ve sevelim", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vejeteryan", 1 }
+                    { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1710), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sağlıkla Tüketebilirsiniz", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Glutensiz", 1 },
+                    { 2, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1720), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hayvanları koruyalım ve sevelim", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vejeteryan", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -478,62 +481,62 @@ namespace YemekSiparis.DAL.Migrations
                 columns: new[] { "Id", "Address", "CreatedDate", "DeletedDate", "ModifiedDate", "Name", "Role", "Salary", "Shift", "Status" },
                 values: new object[,]
                 {
-                    { 1, "Şakirpaşa/ADANA", new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3550), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cabbar HÜSEYİN", "Kasiyer", 11.500m, "Gündüz", 1 },
-                    { 2, "Hürriyet/ADANA", new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3554), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ayşe FATMA", "Temizlikçi", 11.500m, "Gündüz", 1 }
+                    { 1, "Şakirpaşa/ADANA", new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1865), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cabbar HÜSEYİN", "Kasiyer", 11.500m, "Gündüz", 1 },
+                    { 2, "Hürriyet/ADANA", new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1874), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ayşe FATMA", "Temizlikçi", 11.500m, "Gündüz", 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Extras",
-                columns: new[] { "Id", "CreatedDate", "DeletedDate", "ModifiedDate", "Name", "Price", "Status", "Stock" },
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "IsSelected", "ModifiedDate", "Name", "Price", "Status", "Stock" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3623), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Buffalo Sos", 4.99m, 1, 164 },
-                    { 2, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3626), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ketçap", 2.99m, 1, 545 },
-                    { 3, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3628), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mayonez", 2.99m, 1, 454 }
+                    { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2006), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Buffalo Sos", 4.99m, 1, 164 },
+                    { 2, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2015), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ketçap", 2.99m, 1, 545 },
+                    { 3, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(2018), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mayonez", 2.99m, 1, 454 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "Id", "Address", "Age", "AppUserId", "Birthdate", "CreatedDate", "DeletedDate", "Gender", "ModifiedDate", "Name", "Status" },
-                values: new object[] { 1, "Seyhan /ADANA", 30, "1", new DateTime(1992, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(3313), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Eren ÇOLAK", 1 });
+                values: new object[] { 1, "Seyhan /ADANA", 30, "1", new DateTime(1992, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(1509), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Eren ÇOLAK", 1 });
 
             migrationBuilder.InsertData(
                 table: "Foods",
                 columns: new[] { "Id", "CategoryID", "ClickCount", "CreatedDate", "DeletedDate", "Description", "Discount", "Image", "ModifiedDate", "Name", "PrepTime", "Price", "Rating", "Status", "Stock" },
-                values: new object[] { 1, 1, 0, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(4901), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "110 gr. Helal Dana Eti, Cheader Peyniri, Karamelize Soğan", 0m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "SteakHouse", 20, 120m, null, 1, 20 });
+                values: new object[,]
+                {
+                    { 1, 1, 0, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4187), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "110 gr. Helal Dana Eti, Cheader Peyniri, Karamelize Soğan", 0m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "SteakHouse", 20, 120m, null, 1, 20 },
+                    { 2, 2, 0, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4199), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mozeralla,Domates", 0m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Margarita Bol Malzemos", 24, 110m, null, 1, 30 },
+                    { 3, 3, 0, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4202), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Penne Sosu, Krema", 0m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Penne Soslu Makarna", 30, 125m, null, 1, 45 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Foods",
-                columns: new[] { "Id", "CategoryID", "ClickCount", "CreatedDate", "DeletedDate", "Description", "Discount", "Image", "ModifiedDate", "Name", "PrepTime", "Price", "Rating", "Status", "Stock" },
-                values: new object[] { 2, 2, 0, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(4906), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mozeralla,Domates", 0m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Margarita Bol Malzemos", 20, 110m, null, 1, 30 });
-
-            migrationBuilder.InsertData(
-                table: "FoodDiet",
+                table: "FoodDiets",
                 columns: new[] { "DietID", "FoodID" },
                 values: new object[] { 1, 1 });
 
             migrationBuilder.InsertData(
-                table: "FoodDiet",
+                table: "FoodDiets",
                 columns: new[] { "DietID", "FoodID" },
                 values: new object[] { 2, 2 });
 
             migrationBuilder.InsertData(
                 table: "OrderBags",
                 columns: new[] { "Id", "CreatedDate", "CustomerId", "DeletedDate", "ModifiedDate", "OrderDate", "OrderStatus", "Status", "TotalPrice" },
-                values: new object[] { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(4964), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(4965), 3, 1, 310m });
+                values: new object[] { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4340), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(4341), 3, 1, 310m });
 
             migrationBuilder.InsertData(
                 table: "OrderDetails",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "FoodID", "FoodSize", "ModifiedDate", "OrderBagID", "Quantity", "Status", "UnitPrice" },
-                values: new object[] { 1, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(6267), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 150.00m });
+                values: new object[] { 1, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(9068), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 150.00m });
 
             migrationBuilder.InsertData(
                 table: "OrderDetails",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "FoodID", "FoodSize", "ModifiedDate", "OrderBagID", "Quantity", "Status", "UnitPrice" },
-                values: new object[] { 2, new DateTime(2023, 11, 7, 15, 7, 52, 486, DateTimeKind.Local).AddTicks(6272), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 160.00m });
+                values: new object[] { 2, new DateTime(2023, 11, 11, 16, 42, 55, 483, DateTimeKind.Local).AddTicks(9086), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, 160.00m });
 
             migrationBuilder.InsertData(
-                table: "OrderDetailBeverage",
+                table: "OrderDetailBeverages",
                 columns: new[] { "BeverageID", "OrderDetailID" },
                 values: new object[,]
                 {
@@ -542,7 +545,7 @@ namespace YemekSiparis.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "OrderDetailExtra",
+                table: "OrderDetailExtras",
                 columns: new[] { "ExtraID", "OrderDetailID" },
                 values: new object[,]
                 {
@@ -597,8 +600,8 @@ namespace YemekSiparis.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_FoodDiet_FoodID",
-                table: "FoodDiet",
+                name: "IX_FoodDiets_FoodID",
+                table: "FoodDiets",
                 column: "FoodID");
 
             migrationBuilder.CreateIndex(
@@ -612,13 +615,13 @@ namespace YemekSiparis.DAL.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetailBeverage_OrderDetailID",
-                table: "OrderDetailBeverage",
+                name: "IX_OrderDetailBeverages_OrderDetailID",
+                table: "OrderDetailBeverages",
                 column: "OrderDetailID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetailExtra_ExtraID",
-                table: "OrderDetailExtra",
+                name: "IX_OrderDetailExtras_ExtraID",
+                table: "OrderDetailExtras",
                 column: "ExtraID");
 
             migrationBuilder.CreateIndex(
@@ -653,13 +656,13 @@ namespace YemekSiparis.DAL.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "FoodDiet");
+                name: "FoodDiets");
 
             migrationBuilder.DropTable(
-                name: "OrderDetailBeverage");
+                name: "OrderDetailBeverages");
 
             migrationBuilder.DropTable(
-                name: "OrderDetailExtra");
+                name: "OrderDetailExtras");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

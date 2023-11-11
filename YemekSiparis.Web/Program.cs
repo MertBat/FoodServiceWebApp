@@ -3,12 +3,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
-using YemekSiparis.BLL.Mapping;
 using YemekSiparis.BLL.Services.Basket.Abstract;
 using YemekSiparis.BLL.Services.Basket.Concrete;
 using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Concrete;
-using YemekSiparis.BLL.AutoMapper;
+
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Beverage;
 using YemekSiparis.BLL.Services.Admin.Category;
@@ -24,6 +23,7 @@ using YemekSiparis.DAL.Context;
 using YemekSiparis.DAL.Repositories;
 using YemekSiparis.DAL.SeedData;
 using YemekSiparis.Web.Models;
+using YemekSiparis.BLL.AutoMapper;
 
 namespace YemekSiparis.Web
 {
@@ -60,10 +60,6 @@ namespace YemekSiparis.Web
 			//MAPPER
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            //Dependency Injection 
-            builder.Services.AddTransient<ICustomerRepository,CustomerRepository>();
-            builder.Services.AddScoped<ICustomerService,CustomerManager>();
-
 
 
             //Repo
@@ -83,8 +79,8 @@ namespace YemekSiparis.Web
 
             //Services
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IExtraService, ExtraService>();
-            builder.Services.AddScoped<IBeverageService, BeverageService>();
+            builder.Services.AddScoped<IExtraAdminService, ExtraAdminService>();
+            builder.Services.AddScoped<IBeverageAdminService, BeverageAdminService>();
             builder.Services.AddScoped<IStockService, StockService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICustomerDetailService, CustomerDetailService>();
@@ -99,10 +95,11 @@ namespace YemekSiparis.Web
             builder.Services.AddScoped<IOrderBagService,OrderBagManager>();
             builder.Services.AddScoped<IFoodService,FoodManager>();
             builder.Services.AddScoped<ICustomerService,CustomerManager>();
-          
+
 
             //Automapper
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            //builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             var app = builder.Build();
             var serviceScope = app.Services.CreateScope();
@@ -132,17 +129,14 @@ namespace YemekSiparis.Web
 
             app.UseSession(); //Eklendi
 
-            app.MapAreaControllerRoute(
-               areaName: "Admin",
-               name: "areas",
-               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Login}/{action=Index}/{id?}");
 
-            
+            app.MapAreaControllerRoute(
+               areaName: "Admin",
+               name: "areas",
+               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

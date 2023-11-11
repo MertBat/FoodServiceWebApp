@@ -9,9 +9,9 @@ namespace YemekSiparis.Web.Areas.Admin.Controllers
     //[Authorize(Roles = "Admin")]
     public class BeverageController : Controller
     {
-        private readonly IBeverageService beverageService;
+        private readonly IBeverageAdminService beverageService;
 
-        public BeverageController(IBeverageService beverageService)
+        public BeverageController(IBeverageAdminService beverageService)
         {
             this.beverageService = beverageService;
         }

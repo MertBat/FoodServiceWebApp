@@ -6,17 +6,18 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using YemekSiparis.BLL.Abstract;
+using YemekSiparis.BLL.Services.Basket.Concrete;
 using YemekSiparis.Core.Entities;
 using YemekSiparis.Core.Enums;
 using YemekSiparis.Core.IRepositories;
 
 namespace YemekSiparis.BLL.Concrete
 {
-    public class CustomerManager : ICustomerService
+    public class CustomerManager : BaseManager<Customer> ,ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerManager(ICustomerRepository customerRepository)
+        public CustomerManager(ICustomerRepository customerRepository):base(customerRepository)
         {
             _customerRepository = customerRepository;
         }

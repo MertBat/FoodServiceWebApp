@@ -13,12 +13,12 @@ using YemekSiparis.DAL.Repositories;
 
 namespace YemekSiparis.BLL.Services.Admin.Beverage
 {
-    public class BeverageService : IBeverageService
+    public class BeverageAdminService : IBeverageAdminService
     {
         private readonly IBaseRepository<Core.Entities.Beverage> beverageRepository;
         private readonly IMapper mapper;
 
-        public BeverageService(IBaseRepository<Core.Entities.Beverage> beverageRepository, IMapper mapper)
+        public BeverageAdminService(IBaseRepository<Core.Entities.Beverage> beverageRepository, IMapper mapper)
         {
             this.beverageRepository = beverageRepository;
             this.mapper = mapper;

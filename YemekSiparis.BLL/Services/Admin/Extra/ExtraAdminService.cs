@@ -10,12 +10,12 @@ using YemekSiparis.Core.IRepositories;
 
 namespace YemekSiparis.BLL.Services.Admin.Extra
 {
-    public class ExtraService : IExtraService
+    public class ExtraAdminService : IExtraAdminService
     {
         private readonly IBaseRepository<Core.Entities.Extra> extraRepository;
         private readonly IMapper mapper;
 
-        public ExtraService(IBaseRepository<Core.Entities.Extra> extraRepository, IMapper mapper)
+        public ExtraAdminService(IBaseRepository<Core.Entities.Extra> extraRepository, IMapper mapper)
         {
             this.extraRepository = extraRepository;
             this.mapper = mapper;

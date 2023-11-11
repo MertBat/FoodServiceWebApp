@@ -13,8 +13,7 @@ namespace YemekSiparis.BLL.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<CreateOrderDetailVM, OrderDetail>().ReverseMap();
-            CreateMap<CustomerVM, Customer>().ReverseMap();
+            
 
 
         }

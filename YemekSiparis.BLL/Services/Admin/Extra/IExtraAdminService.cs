@@ -8,7 +8,7 @@ using YemekSiparis.Core.Entities;
 
 namespace YemekSiparis.BLL.Services.Admin.Extra
 {
-    public interface IExtraService
+    public interface IExtraAdminService
     {
         Task<List<ExtraListDTO>> GetExtras();
         Task<bool> AddExtra(ExtraCreateDTO extra);
