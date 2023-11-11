@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,8 +14,6 @@
 
 
     <style>
-        
-
         body {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             background-color: #f8f9fa;
@@ -80,6 +79,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -109,20 +109,15 @@
                             <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
                                 <i class="fa fa-list" aria-hidden="true"></i> Menü
                             </a>
-                        </li
+                        </li>  
                         <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
-                                <i class="fa fa-user-o" aria-hidden="true"></i> Giriş Yap
+                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Index">
+                                <i class="fa fa-user-o" aria-hidden="true"></i> Profil
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
-                                <i class="fa fa-shopping-basket" aria-hidden="true"><span>1</span></i> Sepet
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
-                                <i class="fa fa-shopping-basket" aria-hidden="true"><span></span></i> Profil
+                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Buy" asp-action="Payment">
+                                <i class="fa fa-shopping-basket" aria-hidden="true"></i> Sepet
                             </a>
                         </li>
                     </ul>
@@ -147,4 +142,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
