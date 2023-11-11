@@ -10,41 +10,47 @@ using YemekSiparis.DAL.Context;
 
 namespace YemekSiparis.DAL.SeedData
 {
-    public class AdminSeedData
-    {
-        
-        public static async void Seed(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager , AppDbContext _context )
-        {
+	public class AdminSeedData
+	{
 
-            if (!_context.Roles.Any(r => r.Name == "Admin"))
-            {
-                IdentityRole adminRole = new IdentityRole { Name = "Admin" };
-                roleManager.CreateAsync(adminRole).Wait();
-            }
+		public static async void Seed(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, AppDbContext _context)
+		{
 
-            if (!_context.Users.Any(u => u.UserName == "erencolk"))
-            {
+			if (!_context.Roles.Any(r => r.Name == "Admin"))
+			{
+				IdentityRole adminRole = new IdentityRole { Name = "Admin" };
+				roleManager.CreateAsync(adminRole).Wait();
+			}
 
-                AppUser user =  new AppUser
-                {
-                    UserName = "erencolk",
-                    Email = "eren.colk@gmail.com",
-                    
+			if (!_context.Roles.Any(r => r.Name == "User"))
+			{
+				IdentityRole userRole = new IdentityRole { Name = "User" };
+				roleManager.CreateAsync(userRole).Wait();
+			}
 
-                };
+			if (!_context.Users.Any(u => u.UserName == "erencolk"))
+			{
 
-             userManager.CreateAsync(user, "Eren12345.").Wait();
-
-
-                AppUser createdUser = await userManager.FindByNameAsync("erencolk"); 
+				AppUser user = new AppUser
+				{
+					UserName = "erencolk",
+					Email = "eren.colk@gmail.com",
 
 
-                IdentityRole adminRole = await roleManager.FindByNameAsync("Admin");
-                await userManager.AddToRoleAsync(createdUser, adminRole.Name);
-            }
+				};
 
-        }
+				userManager.CreateAsync(user, "Eren12345.").Wait();
 
- 
-    }
+
+				AppUser createdUser = await userManager.FindByNameAsync("erencolk");
+
+
+				IdentityRole adminRole = await roleManager.FindByNameAsync("Admin");
+				await userManager.AddToRoleAsync(createdUser, adminRole.Name);
+			}
+
+		}
+
+
+	}
 }

@@ -2,9 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using YemekSiparis.BLL.Abstract;
+using YemekSiparis.BLL.Concrete;
 using YemekSiparis.Core.Entities;
+using YemekSiparis.Core.IRepositories;
 using YemekSiparis.DAL.Context;
+using YemekSiparis.DAL.Repositories;
 using YemekSiparis.DAL.SeedData;
+using YemekSiparis.Web.Models;
 
 namespace YemekSiparis.Web
 {
@@ -17,15 +22,29 @@ namespace YemekSiparis.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+            //Session
+            builder.Services.AddSession();
             
             //CONTEXT
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conStr")));
 
             //IDENTÝTY
-            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<CustomIdentityValidation>();//AddErrorDescriber eklendi
 
-            //MAPPER
-            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+			builder.Services.Configure<IdentityOptions>(options =>
+			{
+				options.User.RequireUniqueEmail = true; // Email adýnýn benzersiz olmasý için
+				
+			});
+
+			//MAPPER
+			builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            //Dependency Injection 
+            builder.Services.AddTransient<ICustomerRepository,CustomerRepository>();
+            builder.Services.AddScoped<ICustomerService,CustomerManager>();
+
+
             var app = builder.Build();
 
 
@@ -36,6 +55,7 @@ namespace YemekSiparis.Web
                 RoleManager<IdentityRole> roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
                 AdminSeedData.Seed(userManager,roleManager,_context);
+
 
         
 
@@ -57,11 +77,11 @@ namespace YemekSiparis.Web
             app.UseAuthentication(); // EKLENDÝ
             app.UseAuthorization();
 
-            
+            app.UseSession(); //Eklendi
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Login}/{action=Index}/{id?}");
 
             app.Run();
         }
