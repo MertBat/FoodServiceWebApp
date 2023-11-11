@@ -110,15 +110,15 @@ namespace YemekSiparis.Web
 
             app.UseSession(); //Eklendi
 
-            app.MapAreaControllerRoute(
-                areaName: "Admin",
-                name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Login}/{action=Index}/{id?}");
+
+            app.MapAreaControllerRoute(
+               areaName: "Admin",
+               name: "areas",
+               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

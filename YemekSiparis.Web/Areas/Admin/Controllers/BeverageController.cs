@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YemekSiparis.BLL.Models.DTOs;
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BeverageController : Controller
     {
         private readonly IBeverageService beverageService;

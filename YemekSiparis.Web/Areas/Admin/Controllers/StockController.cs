@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YemekSiparis.BLL.Models.DTOs;
 using YemekSiparis.BLL.Services.Admin.Bevarage;
 using YemekSiparis.BLL.Services.Admin.Extra;
@@ -8,6 +9,7 @@ using YemekSiparis.BLL.Services.Admin.Stock;
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class StockController : Controller
     {
         private readonly IStockService stockService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YemekSiparis.BLL.Models.DTOs;
 using YemekSiparis.BLL.Services.Admin.Employee;
 using YemekSiparis.Core.Entities;
@@ -6,6 +7,7 @@ using YemekSiparis.Core.Entities;
 namespace YemekSiparis.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService employeeService;
