@@ -11,6 +11,12 @@ namespace YemekSiparis.BLL.Models.ViewModels
 {
     public class CreateOrderDetailVM
     {
+        public CreateOrderDetailVM()
+        {
+            Extras = new List<Extra>();
+            Beverages = new List<Beverage>();
+        }
+
         public int OrderDetailId { get; set; }
         public FoodSize FoodSize { get; set; }
         public decimal Price { get; set; }

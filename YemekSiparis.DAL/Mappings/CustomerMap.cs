@@ -19,7 +19,7 @@ namespace YemekSiparis.DAL.Mappings
                 Name = "Eren ÇOLAK",
                 Age = 30,
                 Address = "Seyhan /ADANA",
-                AppUserId = "1",
+                AppUserId = "4a5f07f4-a44f-43cb-bfa9-88f2a484e192",
                 Birthdate = new DateTime(1992, 12, 02),
                 CreatedDate = DateTime.Now,
                 Gender = Gender.Erkek,

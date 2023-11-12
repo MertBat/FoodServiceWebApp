@@ -1,15 +1,16 @@
-﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-icons/dist/css/perfect-icons.css" />
 
 @using YemekSiparis.Core.Entities
 @using YemekSiparis.Core.Enums
+@model Customer
 @{
     ViewData["Title"] = "Profilim";
 }
 
 <style>
     body {
-        background-color: #f4f4f4;
+        background-color: #E9B824;
         font-family: 'Montserrat', serif;
     }
 
@@ -91,23 +92,34 @@
 </style>
 
 <div class="container profile-container">
-    <div class="profile-header">
-        <h1><i class="fas fa-user"></i> @Model.Name</h1>
-        <img class="profile-image" src="https://via.placeholder.com/150" alt="Profile Image">
-    </div>
+
     <div class="profile-info">
-        <div class="info-item"><i class="fas fa-birthday-cake"></i> <strong>Yaşı:</strong> @Model.Age</div>
-        <div class="info-item"><i class="far fa-calendar-alt"></i> <strong>Doğum Tarihi:</strong> @Model.Birthdate</div>
-        <div class="info-item"><i class="fas fa-male"></i> <strong>Cinsiyeti:</strong> @Model.Gender.ToString()</div>
-        <div class="info-item"><i class="fas fa-map-marker-alt"></i> <strong>Adresi:</strong> @Model.Address</div>
+        @if (@Model.Age != null)
+        {
+        <div class="info-item"><i class="fas fa-birthday-cake"></i> <strong>Yaşı:</strong> @Model.Age</div>            
+        }
+        @if (@Model.Birthdate != null)
+        {
+        <div class="info-item"><i class="far fa-calendar-alt"></i> <strong>Doğum Tarihi:</strong> @Model.Birthdate.Value.ToShortDateString()</div>
+            
+        }
+        @if (@Model.Gender != null)
+        {        
+            <div class="info-item"><i class="fas fa-venus-mars"></i> <strong>Cinsiyeti:</strong> @Model.Gender.ToString()</div>          
+        }
+        @if (@Model.Address != null)
+        {
+            <div class="info-item"><i class="fas fa-map-marker-alt"></i> <strong>Adresi:</strong> @Model.Address</div>
+
+        }
     </div>
     <a class="btn update-btn animate__animated animate__fadeIn" asp-action="ProfileUpdate" asp-route-id="@Model.Id">
-        <i class="fas fa-pencil-alt"></i> Güncelle
+        <i class="fas fa-edit"></i> Güncelle
     </a>
 </div>
 
 <div class="container text-center mt-4">
     <a class="btn orders-btn animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Orders">
-        <i class="fas fa-shopping-basket"></i> Geçmiş Siparişlerimi Görüntüle
+        <i class="fas fa-history"></i> Geçmiş Siparişlerimi Görüntüle
     </a>
 </div>

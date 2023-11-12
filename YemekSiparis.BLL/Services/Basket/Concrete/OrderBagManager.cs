@@ -23,7 +23,7 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
         private readonly IExtraService _extraService;
         private readonly AppDbContext _dbContext;
 
-        public OrderBagManager(IBaseRepository<OrderBag> baseRepository,IBeverageService beverageService,IExtraService extraService,AppDbContext dbContext) : base(baseRepository)
+        public OrderBagManager(IBaseRepository<OrderBag> baseRepository, IBeverageService beverageService, IExtraService extraService, AppDbContext dbContext) : base(baseRepository)
         {
             _baseRepository = baseRepository;
             _beverageService = beverageService;
@@ -33,10 +33,10 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
 
         public async Task<bool> DefaultUpdate(OrderBag orderBag)
         {
-            if(orderBag == null) 
+            if (orderBag == null)
             {
                 return false;
-            
+
             }
 
             _dbContext.OrderBags.Update(orderBag);
@@ -47,7 +47,7 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
         {
             IQueryable<OrderBag> query = _dbContext.OrderBags.AsQueryable();
 
-            if (expression != null) 
+            if (expression != null)
             {
                 query = query.Where(expression);
             }
@@ -56,36 +56,32 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
             {
                 foreach (var item in includes)
                 {
-                query = query.Include(item);
-                    
+                    query = query.Include(item);
+
                 }
             }
 
-            return  await query.ToListAsync();
+            return await query.ToListAsync();
 
         }
 
-        public async Task<int> GetOrderBagID(OrderBag orderBag , int customerId)
+        public async Task<OrderBag> GetOrderBagID(int customerId)
         {
-            if(orderBag == null) 
-                return 0;
-            else
-            {
-                orderBag.CustomerId = customerId;
-                orderBag.OrderStatus = OrderStatus.InProgress;
-                await _baseRepository.AddAsync(orderBag);
-                return orderBag.Id;
-            }
-         
+            OrderBag bag = new OrderBag();
+            bag.CustomerId = customerId;
+            bag.OrderStatus = OrderStatus.InProgress;
+            await _baseRepository.AddAsync(bag);
+            return bag;
+
         }
 
         public async Task<decimal> TotalPayment(List<OrderDetail> orderDetails)
         {
-            decimal  totalPayment = 0;
-            
+            decimal totalPayment = 0;
 
 
-            foreach(OrderDetail detail in orderDetails) 
+
+            foreach (OrderDetail detail in orderDetails)
             {
 
                 if (detail.Extras.Count <= 0 && detail.Beverages.Count <= 0)
@@ -95,11 +91,11 @@ namespace YemekSiparis.BLL.Services.Basket.Concrete
                 }
                 else if (detail.Extras.Count > 0 && detail.Beverages.Count <= 0)
                 {
-                    totalPayment += Math.Round(((detail.Food.Price * (1 - detail.Food.Discount)) * detail.Quantity) * FoodSizeResult.SizePrice(detail.FoodSize) + await _extraService.AdditionAsync(null,detail.Extras), 2);
+                    totalPayment += Math.Round(((detail.Food.Price * (1 - detail.Food.Discount)) * detail.Quantity) * FoodSizeResult.SizePrice(detail.FoodSize) + await _extraService.AdditionAsync(null, detail.Extras), 2);
                 }
-                else if(detail.Beverages.Count > 0 && detail.Extras.Count <= 0)
+                else if (detail.Beverages.Count > 0 && detail.Extras.Count <= 0)
                 {
-                    totalPayment += Math.Round(((detail.Food.Price * (1 - detail.Food.Discount)) * detail.Quantity) * FoodSizeResult.SizePrice(detail.FoodSize) + await _beverageService.AdditionAsync(null,detail.Beverages), 2);
+                    totalPayment += Math.Round(((detail.Food.Price * (1 - detail.Food.Discount)) * detail.Quantity) * FoodSizeResult.SizePrice(detail.FoodSize) + await _beverageService.AdditionAsync(null, detail.Beverages), 2);
                 }
                 else
                 {

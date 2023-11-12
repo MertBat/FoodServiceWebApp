@@ -58,5 +58,14 @@ namespace YemekSiparis.Web.Controllers
             ModelState.AddModelError("", "Kullanıcı Adı ya da parola hatalı!");
             return View();
         }
+
+
+        public async Task<IActionResult> Logout()
+        {
+
+           await  _signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

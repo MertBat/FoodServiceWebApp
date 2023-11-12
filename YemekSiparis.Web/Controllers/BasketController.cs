@@ -1,25 +1,23 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using YemekSiparis.BLL.Abstract;
 using YemekSiparis.BLL.Helper;
 using YemekSiparis.BLL.Models.ViewModels;
 using YemekSiparis.BLL.Services.Basket.Abstract;
-using YemekSiparis.BLL.Validations;
 using YemekSiparis.Core.Entities;
 using YemekSiparis.Core.Enums;
 using YemekSiparis.Core.IRepositories;
-using YemekSiparis.DAL.Repositories;
 
 namespace YemekSiparis.Web.Controllers
 {
+    [Authorize(Roles ="User,Admin")]
     public class BasketController : Controller
     {
-        private readonly IBaseRepository<OrderDetail> _baseRepository;
+        private readonly IBaseRepository<Category> _baseRepository;
         private readonly IExtraRepository _extraRepository;
         private readonly IBeverageRepository _beverageRepository;
         private readonly IFoodRepository _foodRepository;
@@ -37,7 +35,7 @@ namespace YemekSiparis.Web.Controllers
         private readonly IMapper _mapper;
         private readonly ICustomerService customerService;
 
-        public BasketController(IBaseRepository<OrderDetail> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService, IOrderBagService orderBagService,IMapper mapper,ICustomerService customerService)
+        public BasketController(IBaseRepository<Category> baseRepository, IExtraRepository extraRepository, IBeverageRepository beverageRepository, IFoodRepository foodRepository, IOrderDetailRepository orderDetailRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOrderBagRepository orderBagRepository, ICreateOrderService createOrderService, IOrderDetailService orderDetailService, IExtraService extraService, IBeverageService beverageService, IOrderDetailBeverageService orderBeverageService, IOrderDetailExtraService orderExtraService, IOrderBagService orderBagService, IMapper mapper, ICustomerService customerService)
         {
             _baseRepository = baseRepository;
             _extraRepository = extraRepository;
@@ -58,58 +56,32 @@ namespace YemekSiparis.Web.Controllers
             this.customerService = customerService;
         }
 
-        public IActionResult Menu()
+        public async Task<IActionResult> Menu()
         {
+            List<Category> categories = await _baseRepository.GetAllAsync();
 
-            return View();
+            return View(categories);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllMenu()
+        public async Task<IActionResult> AllMenu(int id)
         {
             Expression<Func<Food, object>>[] includes = new Expression<Func<Food, object>>[]
-           {
+                {
               x=> x.Category, x=> x.Diets
-           };
-            ListFoodVM listFoodVM = new ListFoodVM();
-            listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.Status == Status.Active, includes);
-            return PartialView("_MenuPartialView", listFoodVM);
-        }
-
-        public async Task<IActionResult> HamburgerMenu()
-        {
-            Expression<Func<Food, object>>[] includes = new Expression<Func<Food, object>>[]
-           {
-                 x=> x.Category, x=> x.Diets
-           };
-            ListFoodVM listFoodVM = new ListFoodVM();
-            listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.CategoryID == 1 && x.Status == Status.Active, includes);
-            return PartialView("_MenuPartialView", listFoodVM);
-        }
-
-
-        public async Task<IActionResult> PizzaMenu()
-        {
-            Expression<Func<Food, object>>[] includes = new Expression<Func<Food, object>>[]
+                };
+            if (id == 0)
             {
-                x=> x.Category, x=> x.Diets
-            };
-            ListFoodVM listFoodVM = new ListFoodVM();
-            listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.CategoryID == 2 && x.Status == Status.Active, includes);
-            return PartialView("_MenuPartialView", listFoodVM);
-        }
-
-        public async Task<IActionResult> PastaMenu()
-        {
-            Expression<Func<Food, object>>[] includes = new Expression<Func<Food, object>>[]
+                ListFoodVM listFoodVM = new ListFoodVM();
+                listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.Status != Status.Passive , includes);
+                return PartialView("_MenuPartialView", listFoodVM);
+            }
+            else
             {
-                x=>x.Category, x=> x.Diets
-            };
-
-            ListFoodVM listFoodVM = new ListFoodVM();
-            listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.CategoryID == 3 && x.Status == Status.Active, includes);
-
-            return PartialView("_MenuPartialView", listFoodVM);
+                ListFoodVM listFoodVM = new ListFoodVM();
+                listFoodVM.Foods = await _foodRepository.AllIncludeFood(x => x.CategoryID == id && x.Status != Status.Passive, includes);
+                return PartialView("_MenuPartialView", listFoodVM);
+            }
         }
 
         public async Task<IActionResult> CreateOrder(int id)
@@ -124,24 +96,22 @@ namespace YemekSiparis.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDetailVM detailVM)
         {
-            CreateOrderDetailVMValidator validator = new CreateOrderDetailVMValidator();
-            var result = validator.Validate(detailVM);
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            AppUser appUser = await _userManager.FindByIdAsync(userId);
-            Customer customer = await customerService.TGetByWhereAsync(x => x.AppUserId == appUser.Id);
+            Customer customer = new Customer();
+            customer.Id = await customerService.GetCustomerId(userId);
 
-            OrderBag orderBag = await _orderBagRepository.GetByWhereAsync(x => x.CustomerId == customer.Id && x.Status == Status.Active);
-
-            OrderBag bag = new OrderBag();
+            OrderBag bag = await _orderBagRepository.GetByWhereAsync(x => x.CustomerId == customer.Id && x.Status == Status.Active);
 
             OrderDetail orderDetail = new OrderDetail();
-            if (orderBag == null)
+            if (bag == null)
             {
-                orderDetail.OrderBagID = await _orderBagService.GetOrderBagID(bag,customer.Id);
+                bag = await _orderBagService.GetOrderBagID(customer.Id);
+                orderDetail.OrderBagID = bag.Id;
             }
             else
-                orderDetail.OrderBagID = orderBag.Id;
+                orderDetail.OrderBagID = bag.Id;
+
 
             orderDetail.Quantity = detailVM.Quantity;
             orderDetail.FoodID = detailVM.FoodId;
@@ -154,27 +124,25 @@ namespace YemekSiparis.Web.Controllers
 
             OrderDetailBeverage beverage = new OrderDetailBeverage();
             await _orderBeverageService.AddBeverageToOrder(beverage, orderDetail.Id);
-        
+
             Expression<Func<OrderDetail, object>>[] includes = new Expression<Func<OrderDetail, object>>[]
             {
                 x=>x.Beverages, x=>x.Extras,x=>x.Food
             };
 
-            if (orderBag != null)
-            {
-                orderBag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == orderBag.Id, includes));
-                await _orderBagService.DefaultUpdate(orderBag);
-            }
-            else
-            {
-                bag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == bag.Id, includes));
-                await _orderBagService.DefaultUpdate(bag);
-            }
+            //SEPETE TOPLAM FİYAT EKLE
+            bag.TotalPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Status == Status.Active && x.OrderBagID == bag.Id, includes));
+            await _orderBagService.DefaultUpdate(bag);
+
+            //SİPARİŞE TOPLAM FİYAT EKLE
             orderDetail.UnitPrice = await _orderBagService.TotalPayment(await _orderDetailRepository.AllIncludeOrderDetail(x => x.Id == orderDetail.Id && x.Status == Status.Active, includes));
+
             await _orderDetailService.DefaultUpdateAsync(orderDetail);
+
             TempData["Success"] = "Ürün Sepete Eklendi";
+
             DataClear.Clear();
-            return View("Menu");
+            return RedirectToAction("Menu");
         }
 
 
@@ -184,11 +152,13 @@ namespace YemekSiparis.Web.Controllers
         {
 
             Food food = await _foodRepository.GetByAllInclude(x => x.Id == detailVM.FoodId);
+
             if ((detailVM.ExtraId != 0) && detailVM.IsSelected == true)
                 ExtraData.Extras.Add(await _extraRepository.GetByIdAsync(detailVM.ExtraId));
+
             else if ((detailVM.ExtraId != 0) && detailVM.IsSelected == false)
             {
-                Extra extra = null;
+                Extra extra = new Extra();
 
                 foreach (var element in ExtraData.Extras)
                 {
@@ -204,13 +174,23 @@ namespace YemekSiparis.Web.Controllers
             if (detailVM.BeverageId != 0 && detailVM.IsSelected == true)
                 BeverageData.Beverages.Add(await _beverageRepository.GetByIdAsync(detailVM.BeverageId));
             else if (detailVM.BeverageId != 0 && detailVM.IsSelected == false)
-                BeverageData.Beverages.Remove(await _beverageRepository.GetByIdAsync(detailVM.BeverageId));
+            {
+                Beverage beverage = new Beverage();
 
-
+                foreach (var element in BeverageData.Beverages)
+                {
+                    if (element.Id == detailVM.BeverageId)
+                    {
+                        beverage = element;
+                        break;
+                    }
+                }
+                BeverageData.Beverages.Remove(beverage);
+            }
             decimal size = FoodSizeResult.SizePrice(detailVM.FoodSize);
 
             if (ExtraData.Extras.Count <= 0 && BeverageData.Beverages.Count <= 0)
-                detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity, 2) * size;
+                detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity * size ,2);
             else if (ExtraData.Extras.Count > 0 && BeverageData.Beverages.Count <= 0)
                 detailVM.TotalPrice = Math.Round((food.Price * (1 - food.Discount)) * detailVM.Quantity * size + await _extraService.AdditionAsync(ExtraData.Extras), 2);
             else if (BeverageData.Beverages.Count > 0 && ExtraData.Extras.Count <= 0)

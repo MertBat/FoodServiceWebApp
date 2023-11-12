@@ -61,6 +61,8 @@ namespace YemekSiparis.Web
             {
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
                 options.AccessDeniedPath = "/Home/Index";
+                options.LoginPath = "/Login/Index"; 
+
             });
 
             //MAPPER
@@ -137,7 +139,7 @@ namespace YemekSiparis.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Login}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                     name: "admin",

@@ -10,13 +10,12 @@
     <link rel="stylesheet" href="~/YemekSiparis.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous&display=swap" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
         body {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: #f8f9fa;
+            background-color: #ffc107;
             font-family: 'Montserrat', serif;
             color: #333;
             transition: background-color 0.5s, color 0.5s;
@@ -67,9 +66,8 @@
         }
 
         footer {
-            border-top: 1px solid #ddd;
-            background-color: #ffffff;
-            color: #6c757d;
+            background-color: #d9534f;
+            color: #fff;
             text-align: center;
             padding: 5px 0;
             position: fixed;
@@ -95,31 +93,79 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fa fa-home" aria-hidden="true"></i> Ana Sayfa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <i class="fa fa-info" aria-hidden="true"></i> Hakkımızda
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
-                                <i class="fa fa-list" aria-hidden="true"></i> Menü
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Index">
-                                <i class="fa fa-user-o" aria-hidden="true"></i> Profil
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Buy" asp-action="Payment">
-                                <i class="fa fa-shopping-basket" aria-hidden="true"></i> Sepet
-                            </a>
-                        </li>
+                        @if (Context.User.Identity.IsAuthenticated)
+                        {
+                            if (Context.User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Index">
+                                        <i class="fas fa-user"></i> Profil
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Buy" asp-action="Payment">
+                                        <i class="fas fa-shopping-basket"></i> Sepet
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
+                                        <i class="fas fa-list"></i> Menü
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" href="/Admin/Home">
+                                        <i class="fas fa-list"></i> Admin
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Login" asp-action="Logout">
+                                        <i class="fas fa-sign-out-alt"></i> Çıkış
+                                    </a>
+                                </li>
+                            }
+                            else if (Context.User.IsInRole("User"))
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Basket" asp-action="Menu">
+                                        <i class="fas fa-list"></i> Menü
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Buy" asp-action="Payment">
+                                        <i class="fas fa-shopping-basket"></i> Sepet
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Index">
+                                        <i class="fas fa-user"></i> Profil
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Login" asp-action="Logout">
+                                        <i class="fas fa-sign-out-alt"></i> Çıkış
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <i class="fas fa-home"></i> Ana Sayfa
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                    <i class="fas fa-info"></i> Hakkımızda
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light animate__animated animate__fadeIn" asp-area="" asp-controller="Login" asp-action="Index">
+                                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -132,7 +178,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted text-center mt-4 animate__animated animate__fadeIn">
+    <footer class="border-top footer text-center mt-4 animate__animated animate__fadeIn">
         <div class="container">
             &copy; @DateTime.Now.Year - BilgeAdam Boost<a asp-area="" asp-controller="Home" asp-action="Privacy"></a>
         </div>

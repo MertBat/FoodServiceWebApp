@@ -3,27 +3,6 @@
     Layout = null;
 }
 
-@*<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-<div class="container">
-    <br />
-    <br />
-    <form method="post">
-        <h2>Taşınan Mail Adresi: @ViewBag.mail</h2>
-        <label>Kullanıcı ID Değeri</label>
-        <input type="text" class="form-control" asp-for="Mail" value="@ViewBag.mail"/>
-        <br />
-        <label>Mail Adresinize Gelen 6 Haneli Kodu Giriniz</label>
-        <input type="text" class="form-control" asp-for="ConfirmCode" />
-        <br />
-        <button class="btn btn-primary">Hesabı Aktifleştir</button>
-        <br />
-        <br />
-        <div class="text-black" asp-validation-summary="ModelOnly"></div>
-    </form>
-</div>*@
-
-
 <!DOCTYPE html>
 <html>
 
@@ -34,7 +13,7 @@
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
-	<title>Yemek Sepeti - Yeni Kullanıcı Kaydı</title>
+	<title>BOOST BURGER - Yeni Kullanıcı Kaydı</title>
 
 	<!-- Meta-Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,7 +37,7 @@
 <!-- Body -->
 <body>
 
-	<h1>Yemek Sepeti Kayıt Formu</h1>
+	<h1>BOOST BURGER</h1>
 
 	<div class="w3layoutscontaineragileits">
 		<h2>Mail Doğrulama</h2>
@@ -93,7 +72,7 @@
 	
 
 	<div class="w3footeragile">
-		<p> &copy; @DateTime.Now.Year Yemek Sepeti Giriş Paneli. Tüm Hakları Saklıdır </p>
+		<p> &copy; @DateTime.Now.Year Boost Burger Giriş Paneli. Tüm Hakları Saklıdır </p>
 	</div>
 
 

@@ -22,6 +22,7 @@ namespace YemekSiparis.Core.Entities
         public DateTime? Birthdate { get; set; } 
         public Gender Gender { get; set; }  = Enums.Gender.Erkek;
         public string Address { get; set; } 
+
         public List<OrderBag> Orders { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }

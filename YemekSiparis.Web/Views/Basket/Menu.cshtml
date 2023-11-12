@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <title>@ViewData["Title"]</title>
 </head>
-<body>
+<body style="background: #E9B824;">
     @{
         var successMessage = TempData["Success"] as string;
     }
     @if (!string.IsNullOrEmpty(successMessage))
     {
         <div id="alertDiv" class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle"></i> @successMessage
+            <i class="fas fa-check-circle me-2" style="color: #28a745;"></i> @successMessage
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
@@ -27,16 +27,34 @@
     }
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4 animate__animated animate__fadeInDown"><b><i class="fas fa-utensils"></i> Yemek Menüsü</b></h1>
+        <h1 class="text-center mb-4 animate__animated animate__fadeInDown"><b><i class="fas fa-hamburger text-danger"></i> Yemek Menüsü</b></h1>
 
-        <h3 class="text-center mb-3 animate__animated animate__fadeIn"><i class="fas fa-clipboard-list"></i> Kategoriler</h3>
+        <h3 class="text-center mb-3 animate__animated animate__fadeIn"><i class="fas fa-list text-danger"></i> Kategoriler</h3>
 
         <div class="d-flex justify-content-center mb-4 animate__animated animate__fadeInUp">
             <div class="btn-group">
-                <button type="button" class="btn btn-danger btn-menu" onclick="AllList()"><i class="fas fa-list"></i> Hepsi</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListHamburger()"><i class="fas fa-hamburger"></i> Hamburger</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPizza()"><i class="fas fa-pizza-slice"></i> Pizza</button>
-                <button type="button" class="btn btn-danger btn-menu" onclick="GetListPasta()"><i class="fas fa-utensil-spoon"></i> Makarna</button>
+                <button type="button" class="btn btn-outline-success btn-menu" onclick="AllList(0)"><i class="fas fa-utensils" style="color: #fff;"></i> Hepsi</button>
+                @foreach (var item in Model)
+                {
+                    <button type="button" class="btn btn-outline-success btn-menu" onclick="AllList(@item.Id)">
+                        @switch (item.Name.ToLower())
+                        {
+                            case "hamburger":
+                                <i class="fas fa-hamburger" style="color: #fff;"></i>
+                                break;
+                            case "pizza":
+                                <i class="fas fa-pizza-slice" style="color: #fff;"></i>
+                                break;
+                            case "pasta":
+                                <i class="fas fa-utensil-spoon" style="color: #fff;"></i>
+                                break;
+                            default:
+                                <i class="fas fa-utensils" style="color: #fff;"></i>
+                                break;
+                        }
+                        @item.Name
+                    </button>
+                }
             </div>
         </div>
 
@@ -51,8 +69,6 @@
             <div id="PastaList"></div>
         </div>
     </div>
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -70,6 +86,7 @@
         }
 
         .card {
+            font-family: 'Montserrat', serif;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -81,6 +98,7 @@
             }
 
         .btn-menu {
+            font-family: 'Montserrat', serif;
             border-radius: 25px;
         }
     </style>

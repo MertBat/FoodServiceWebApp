@@ -1,13 +1,26 @@
 ﻿@using YemekSiparis.BLL.Models.ViewModels;
 @using YemekSiparis.Core.Entities;
-
+@model ListFoodVM
 <div class="container mt-5">
     <div class="row">
+
+
         @foreach (Food item in Model.Foods)
         {
-            <div class="col-lg-4 mb-4">
-                <div class="card rounded-3 shadow">
+            <div class="col-lg-4 mb-4" stlye="width:300px;height:270px">
+                <div class="card  shadow">
                     <div class="card-body">
+                        @if (item.Image != null)
+                        {
+                            string imageBase64 = Convert.ToBase64String(item.Image);
+                            string imageSrc = $"data:image/png;base64,{imageBase64}";
+
+                            <img src="@imageSrc" style="width:280px;height:210px;display:block;margin:0 auto" alt="Product Image" />
+                        }
+                        else
+                        {
+                            <p>No Image Available</p>
+                        }
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">Fiyatı: @item.Price</p>
                     </div>
@@ -30,31 +43,25 @@
 }
 
 <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f8f9fa;
-        color: #343a40;
-    }
-
-    h2 {
-        color: #dc3545;
-    }
-
     .btn-menu {
+        font-family: 'Montserrat', serif;
         margin: 5px;
         border-radius: 10px;
-        font-size: 16px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.2s ease-in-out;
+        font-size: 18px;
+        padding: 10px 15px;
+        background-color: #dc3545;
+        color: white;
+        transition: background-color 0.6s, transform 0.6s ease-in-out;
     }
 
         .btn-menu:hover {
-            background-color: #dc3545;
-            color: white;
+            background-color: white;
+            color: #dc3545;
             transform: scale(1.1);
         }
 
     .card {
+        font-family: 'Montserrat', serif;
         border: none;
         border-radius: 15px;
         transition: transform 0.2s ease-in-out;
@@ -78,11 +85,12 @@
     }
 
         .buy-button:hover {
-            background-color: #bb2d3b;
-            border-color: #bb2d3b;
+            background-color: white;
+            border-color: white;
+            color: #dc3545;
         }
 
     .shadow {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
     }
 </style>

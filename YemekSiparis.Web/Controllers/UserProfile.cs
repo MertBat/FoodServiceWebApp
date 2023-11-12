@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -12,6 +13,8 @@ using YemekSiparis.Core.Enums;
 
 namespace YemekSiparis.Web.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
+
     public class UserProfile : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -63,6 +66,9 @@ namespace YemekSiparis.Web.Controllers
             var result = validationRules.Validate(customerVM);
             Customer customer = _mapper.Map<Customer>(customerVM);
             customer.AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+       
+
             if (result.IsValid)
             {                
                 await _customerService.TUpdateAsync(customer);

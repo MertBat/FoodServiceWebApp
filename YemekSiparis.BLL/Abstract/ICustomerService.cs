@@ -10,5 +10,7 @@ namespace YemekSiparis.BLL.Abstract
     public interface ICustomerService : IBaseService<Customer>
     {
 
+        Task<int> GetCustomerId(string userId);
+
     }
 }

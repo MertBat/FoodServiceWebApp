@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using YemekSiparis.BLL.Abstract;
@@ -16,10 +18,20 @@ namespace YemekSiparis.BLL.Concrete
     public class CustomerManager : BaseManager<Customer> ,ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CustomerManager(ICustomerRepository customerRepository):base(customerRepository)
+        public CustomerManager(ICustomerRepository customerRepository,UserManager<AppUser> userManager):base(customerRepository)
         {
             _customerRepository = customerRepository;
+            _userManager = userManager;
+        }
+
+        public async Task<int> GetCustomerId(string userId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(userId);
+            Customer customer = await _customerRepository.GetByWhereAsync(x => x.AppUserId == appUser.Id);
+
+            return customer.Id;
         }
 
         public async Task<bool> TAddAsync(Customer entity)

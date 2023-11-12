@@ -64,6 +64,15 @@ namespace YemekSiparis.BLL.Services.Admin.Product
 
         public async Task<bool> CreateFood(ProductCreateDTO productCreateDTO)
         {
+            byte[] imageData = null;
+            if (productCreateDTO.Image != null && productCreateDTO.Image.Length > 0)
+            {
+                using (var binaryReader = new BinaryReader(productCreateDTO.Image.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)productCreateDTO.Image.Length);
+                }
+            }
+
             Food food = new();
             food.Name = productCreateDTO.Name;
             food.Stock = productCreateDTO.Stock;
@@ -72,7 +81,7 @@ namespace YemekSiparis.BLL.Services.Admin.Product
             food.Price = productCreateDTO.Price;
             food.Discount = productCreateDTO.Discount;
             food.CategoryID = productCreateDTO.CategoryID;
-            food.Image = productCreateDTO.Image;
+            food.Image = imageData;
 
             await foodRepository.AddAsync(food);
             FoodDiet foodDiet = new();
@@ -118,18 +127,25 @@ namespace YemekSiparis.BLL.Services.Admin.Product
 
         public async Task<bool> PostUpdateFood(ProductUpdateDTO productUpdateDTO)
         {
-            Food food = new Food
+            Food food = await foodRepository.GetByIdAsync(productUpdateDTO.Id);
+            food.Id = productUpdateDTO.Id;
+            food.Name = productUpdateDTO.Name;
+            food.Stock = productUpdateDTO.Stock;
+            food.Description = productUpdateDTO.Description;
+            food.PrepTime = productUpdateDTO.PrepTime;
+            food.Price = productUpdateDTO.Price;
+            food.Discount = productUpdateDTO.Discount;
+            food.CategoryID = productUpdateDTO.CategoryID;
+
+            if (productUpdateDTO.Image != null && productUpdateDTO.Image.Length > 0)
             {
-                Id = productUpdateDTO.Id,
-                Name = productUpdateDTO.Name,
-                Stock = productUpdateDTO.Stock,
-                Description = productUpdateDTO.Description,
-                PrepTime = productUpdateDTO.PrepTime,
-                Price = productUpdateDTO.Price,
-                Discount = productUpdateDTO.Discount,
-                CategoryID = productUpdateDTO.CategoryID,
-                Image = productUpdateDTO.Image
-            };
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(productUpdateDTO.Image.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)productUpdateDTO.Image.Length);
+                }
+                food.Image = imageData;
+            }
 
             await foodRepository.UpdateAsync(food);
             FoodDiet foodDiet = new();

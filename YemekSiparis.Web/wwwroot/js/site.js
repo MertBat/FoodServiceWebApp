@@ -1,12 +1,11 @@
-﻿function AllList() {
+﻿function AllList(id) {
     $.ajax({
-        url: "/Basket/AllMenu",
+        url: "/Basket/AllMenu/" + id,
         type: "GET",
         success: function (response) {
-            $("#all-list").html(response),
-                $("#HamburgerList").html(""),
-                $("#PastaList").html(""),
-                $("#PizzaList").html("");
+            $("#all-list").html(""),
+                $("#all-list").html(response);
+              
         }
     })
 }
