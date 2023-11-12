@@ -17,6 +17,7 @@ namespace YemekSiparis.Core.Entities
         public decimal Price { get; set; }
         public int Stock { get; set; }
 
+        public bool IsSelected { get; set; }
         public List<OrderDetailBeverage> OrderDetails { get; set; }
 
 

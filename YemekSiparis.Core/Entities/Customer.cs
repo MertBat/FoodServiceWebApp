@@ -18,10 +18,11 @@ namespace YemekSiparis.Core.Entities
             Orders = new List<OrderBag>();
         }
 
-        public int Age { get; set; }        
-        public DateTime Birthdate { get; set; } 
-        public Gender Gender { get; set; }  
+        public int? Age { get; set; }        
+        public DateTime? Birthdate { get; set; } 
+        public Gender Gender { get; set; }  = Enums.Gender.Erkek;
         public string Address { get; set; } 
+
         public List<OrderBag> Orders { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }

@@ -30,6 +30,11 @@ namespace YemekSiparis.DAL.Context
         public DbSet<Extra> Extras { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<OrderBag> OrderBags { get; set; }
+        public DbSet<OrderDetailBeverage> OrderDetailBeverages { get; set; }
+        public DbSet<OrderDetailExtra> OrderDetailExtras{ get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<FoodDiet> FoodDiets { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

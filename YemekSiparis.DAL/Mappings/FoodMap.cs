@@ -37,7 +37,20 @@ namespace YemekSiparis.DAL.Mappings
                 Description = "Mozeralla,Domates",
                 CreatedDate = DateTime.Now,
                 Status = Status.Active,
-                PrepTime = 20,
+                PrepTime = 24,
+
+            });
+            builder.HasData(new Food
+            {
+                Id = 3,
+                Name = "Penne Soslu Makarna",
+                Stock = 45,
+                Price = 125m,
+                CategoryID = 3,
+                Description = "Penne Sosu, Krema",
+                CreatedDate = DateTime.Now,
+                Status = Status.Active,
+                PrepTime = 30,
 
             });
         }

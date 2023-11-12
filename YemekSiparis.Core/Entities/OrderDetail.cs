@@ -4,7 +4,6 @@ namespace YemekSiparis.Core.Entities
 {
     public class OrderDetail : BaseEntity
     {
-        public int Id { get; set; }
         public OrderDetail()
         {
             Extras = new List<OrderDetailExtra>();
@@ -19,8 +18,7 @@ namespace YemekSiparis.Core.Entities
         public List<OrderDetailExtra> Extras { get; set; }  
         public List<OrderDetailBeverage> Beverages { get; set; }
         public Food? Food { get; set; }
-        public OrderBag OrderBag { get; set; }
-
+        public OrderBag? OrderBag { get; set; }
         public FoodSize FoodSize{ get; set; }
 
     }

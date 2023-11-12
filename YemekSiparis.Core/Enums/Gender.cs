@@ -8,7 +8,7 @@ namespace YemekSiparis.Core.Enums
 {
     public enum Gender
     {
-        Male = 1, Female
+        Erkek = 1, Kadın
 
     }
 }
