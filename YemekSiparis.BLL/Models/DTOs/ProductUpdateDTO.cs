@@ -22,18 +22,16 @@ namespace YemekSiparis.BLL.Models.DTOs
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Bu alan boş bırakılamaz!")]
-        //[RegularExpression("^[0-9]$", ErrorMessage = "Sayısal bir değer olmalıdır.")]
         [Range(1, int.MaxValue, ErrorMessage = "0 dan büyük bir değer olmalı!")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Bu alan boş bırakılamaz!")]
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Bu alan boş bırakılamaz!")]
-        //[RegularExpression("^[0-9]$", ErrorMessage = "Sayısal bir değer olmalıdır!")]
         [Range(1, int.MaxValue, ErrorMessage = "0 dan büyük bir değer olmalı!")]
         public int PrepTime { get; set; }
 
-        //[RegularExpression("^[0-9]*$", ErrorMessage = "Sayısal bir değer olmalıdır!")]
         [Range(0, int.MaxValue, ErrorMessage = "0 dan büyük bir değer olmalı!")]
         public decimal Discount { get; set; }
 

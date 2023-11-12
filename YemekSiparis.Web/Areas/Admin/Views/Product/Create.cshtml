@@ -17,20 +17,21 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-floating">
-                        <input class="form-control" id="inputLastName" type="text" asp-for="Price" placeholder="Enter your last name" />
+                        <input class="form-control" id="inputLastName" type="number" asp-for="Price" placeholder="Enter your last name" />
                         <label asp-for="Price">Ürün Fiyatı</label>
                     </div>
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <div class="form-floating">
-                        <input class="form-control" id="inputLastName" type="text" asp-for="Discount" placeholder="Enter your last name" />
+                        <input class="form-control" id="inputLastName" type="number" asp-for="Discount" placeholder="Enter your last name" />
                         <label asp-for="Discount">İndirim Oranı %</label>
                     </div>
                     <span asp-validation-for="Discount" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <input asp-for="Image" type="file" name="Image" class="form-control" accept="image/" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-floating mb-3">
@@ -56,7 +57,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-floating mb-3 mb-md-0">
-                        <input class="form-control" id="inputPassword" type="text" asp-for="PrepTime" placeholder="Create a password" />
+                        <input class="form-control" id="inputPassword" type="number" asp-for="PrepTime" placeholder="Create a password" />
                         <label asp-for="PrepTime">Hazırlama Zamanı dk.</label>
                     </div>
                     <span asp-validation-for="PrepTime" class="text-danger"></span>

@@ -104,6 +104,7 @@ namespace YemekSiparis.BLL.Services.Admin.Product
         public async Task<ProductUpdateDTO> GetUpdateFood(int id)
         {
             Food food = await foodRepository.GetByIdAsync(id);
+            food.Image = null;
             ProductUpdateDTO productUpdateDTO = mapper.Map<ProductUpdateDTO>(food);
             List<Diet> diets = await dietRepository.GetAllAsync();
             List<FoodDiet> foodDiets = await foodDietRepository.GetAllAsync(x => x.FoodID == food.Id);
